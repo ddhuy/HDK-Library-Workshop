@@ -18,7 +18,7 @@ public class DataAccessFactory {
         }
         if (accessType.equals(DataAccessType.FACADE)) {
             if (facade == null) {
-                facade = new DataAccessFacade();
+                facade = DataAccessFacade.INSTANCE;
             }
             return facade;
         }
@@ -26,9 +26,6 @@ public class DataAccessFactory {
     }
 
     public static DataAccessFacade defaultDataAccess() {
-        if (facade == null) {
-            facade = new DataAccessFacade();
-        }
-        return facade;
+        return (DataAccessFacade) createDataAccess(DataAccessType.FACADE);
     }
 }

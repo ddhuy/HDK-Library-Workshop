@@ -25,6 +25,11 @@ public class DataAccessFacade implements DataAccess {
     //			+ "\\src\\dataaccess\\storage"; //for Windows file system
     private static final String DATE_PATTERN = "MM/dd/yyyy";
 
+    static final DataAccessFacade INSTANCE = new DataAccessFacade();
+
+    private DataAccessFacade() {
+    }
+
     //implement: other save operations
     public void saveNewMember(LibraryMember member) {
         HashMap<String, LibraryMember> mems = readMemberMap();
