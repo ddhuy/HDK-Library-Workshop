@@ -9,13 +9,6 @@ public class DataAccessFactory {
     private static DataAccessMongo mongoDB;
     private static DataAccessFacade facade;
 
-//    private static Set<String> dataAccessSupport = new HashSet<>(){
-//        {
-//            add(DataAccessMongoDB.class.getName());
-//            add(DataAccessFacade.class.getName());
-//        }
-//    };
-
     public static DataAccess createDataAccess(DataAccessType accessType) {
         if (accessType.equals(DataAccessType.MONGO)) {
             if (mongoDB == null) {

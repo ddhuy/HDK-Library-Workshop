@@ -1,11 +1,10 @@
 package miu.edu.mpp.hdk.dao.impl;
 
-import com.mongodb.MongoCredential;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import miu.edu.mpp.hdk.dao.DataAccess;
-import miu.edu.mpp.hdk.enums.StorageType;
 import miu.edu.mpp.hdk.model.Book;
 import miu.edu.mpp.hdk.model.LibraryMember;
 import miu.edu.mpp.hdk.model.User;
@@ -37,17 +36,15 @@ public class DataAccessMongo implements DataAccess {
         MongoDatabase database = mongo.getDatabase(DB_NAME);
         System.out.println("Credentials ::"+ credential);
 
-        for (StorageType type : StorageType.values()) {
+        for (String name : database.listCollectionNames()) {
+            System.out.println(name);
             // Retrieving a collection
-            MongoCollection<Document> collection = database.getCollection(type.name());
+            MongoCollection<Document> collection = database.getCollection(name);
             // Dropping a Collection
             collection.drop();
             // Creating a collection
-            database.createCollection(type.name());
-            System.out.println(String.format("Collection %s created successfully", type.name()));
-        }
-        for (String name : database.listCollectionNames()) {
-            System.out.println(name);
+            database.createCollection(name);
+            System.out.println(String.format("Collection %s created successfully", name));
         }
 
     }
