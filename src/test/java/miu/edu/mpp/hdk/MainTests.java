@@ -8,6 +8,6 @@ public class MainTests {
 
     @Test
     public void testConnectionDB(){
-        DataAccessFactory.createDataAccess(DataAccessType.MONGO);
+        DataAccessFactory.createDataAccess(DataAccessType.FACADE);
     }
 }

@@ -1,5 +1,6 @@
 package miu.edu.mpp.hdk.dao.impl;
 
+import miu.edu.mpp.hdk.dao.DataConstant;
 import miu.edu.mpp.hdk.model.Book;
 import miu.edu.mpp.hdk.model.LibraryMember;
 import miu.edu.mpp.hdk.dao.DataAccess;
@@ -28,6 +29,9 @@ public class DataAccessFacade implements DataAccess {
     static final DataAccessFacade INSTANCE = new DataAccessFacade();
 
     private DataAccessFacade() {
+        this.loadBookMap(DataConstant.bookData());
+        this.loadUserMap(DataConstant.userData());
+        this.loadMemberMap(DataConstant.libraryMemberData());
     }
 
     //implement: other save operations
@@ -66,25 +70,25 @@ public class DataAccessFacade implements DataAccess {
     ///// - used just once at startup
 
 
-    public void loadBookMap(List<Book> bookList) {
+    private void loadBookMap(List<Book> bookList) {
         HashMap<String, Book> books = new HashMap<String, Book>();
         bookList.forEach(book -> books.put(book.getIsbn(), book));
         saveToStorage(StorageType.BOOKS, books);
     }
 
-    public void loadUserMap(List<User> userList) {
+    private void loadUserMap(List<User> userList) {
         HashMap<String, User> users = new HashMap<>();
         userList.forEach(user -> users.put(user.getId(), user));
         saveToStorage(StorageType.USERS, users);
     }
 
-    public void loadMemberMap(List<LibraryMember> memberList) {
+    private void loadMemberMap(List<LibraryMember> memberList) {
         HashMap<String, LibraryMember> members = new HashMap<>();
         memberList.forEach(member -> members.put(member.getMemberId(), member));
         saveToStorage(StorageType.MEMBERS, members);
     }
 
-    public void saveToStorage(StorageType type, Object ob) {
+    private void saveToStorage(StorageType type, Object ob) {
         ObjectOutputStream out = null;
         try {
             Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
@@ -102,7 +106,7 @@ public class DataAccessFacade implements DataAccess {
         }
     }
 
-    public Object readFromStorage(StorageType type) {
+    private Object readFromStorage(StorageType type) {
         ObjectInputStream in = null;
         Object retVal = null;
         try {
