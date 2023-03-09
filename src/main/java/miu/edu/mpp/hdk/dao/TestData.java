@@ -1,5 +1,6 @@
 package miu.edu.mpp.hdk.dao;
 
+import miu.edu.mpp.hdk.dao.impl.DataAccessFactory;
 import miu.edu.mpp.hdk.model.Address;
 import miu.edu.mpp.hdk.model.Author;
 import miu.edu.mpp.hdk.model.Book;
@@ -64,10 +65,9 @@ public class TestData {
     }
 
     ///////////// DATA //////////////
-    List<LibraryMember> members = new ArrayList<LibraryMember>();
-    @SuppressWarnings("serial")
+    List<LibraryMember> members = new ArrayList<>();
 
-    List<Address> addresses = new ArrayList<Address>() {
+    List<Address> addresses = new ArrayList<>() {
         {
             add(new Address("101 S. Main", "Fairfield", "IA", "52556"));
             add(new Address("51 S. George", "Georgetown", "MI", "65434"));
@@ -79,8 +79,8 @@ public class TestData {
             add(new Address("501 Central", "Mountain View", "CA", "94707"));
         }
     };
-    @SuppressWarnings("serial")
-    public List<Author> allAuthors = new ArrayList<Author>() {
+
+    public List<Author> allAuthors = new ArrayList<>() {
         {
             add(new Author("Joe", "Thomas", "641-445-2123", addresses.get(0), "A happy man is he."));
             add(new Author("Sandra", "Thomas", "641-445-2123", addresses.get(0), "A happy wife is she."));
@@ -90,8 +90,7 @@ public class TestData {
         }
     };
 
-    @SuppressWarnings("serial")
-    List<Book> allBooks = new ArrayList<Book>() {
+    List<Book> allBooks = new ArrayList<>() {
         {
             add(new Book("23-11451", "The Big Fish", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))));
             add(new Book("28-12331", "Antartica", 7, Arrays.asList(allAuthors.get(2))));
@@ -100,8 +99,7 @@ public class TestData {
         }
     };
 
-    @SuppressWarnings("serial")
-    List<User> allUsers = new ArrayList<User>() {
+    List<User> allUsers = new ArrayList<>() {
         {
             add(new User("101", "xyz", Auth.LIBRARIAN));
             add(new User("102", "abc", Auth.ADMIN));

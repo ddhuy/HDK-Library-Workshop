@@ -1,12 +1,12 @@
-package miu.edu.mpp.hdk.dao;
+package miu.edu.mpp.hdk.dao.impl;
 
-import miu.edu.mpp.hdk.dao.impl.DataAccessFacade;
-import miu.edu.mpp.hdk.dao.impl.DataAccessMongoDB;
+import miu.edu.mpp.hdk.dao.DataAccess;
+import miu.edu.mpp.hdk.enums.DataAccessType;
 import miu.edu.mpp.hdk.exception.DataAccessException;
 
 public class DataAccessFactory {
 
-    private static DataAccessMongoDB mongoDB;
+    private static DataAccessMongo mongoDB;
     private static DataAccessFacade facade;
 
 //    private static Set<String> dataAccessSupport = new HashSet<>(){
@@ -16,14 +16,14 @@ public class DataAccessFactory {
 //        }
 //    };
 
-    public static DataAccess createDataAccess(String access) {
-        if (access.equals(DataAccessMongoDB.class.getName())) {
+    public static DataAccess createDataAccess(DataAccessType accessType) {
+        if (accessType.equals(DataAccessType.MONGO)) {
             if (mongoDB == null) {
-                mongoDB = DataAccessMongoDB.INSTANCE;
+                mongoDB = DataAccessMongo.INSTANCE;
             }
             return mongoDB;
         }
-        if (access.equals(DataAccessFacade.class.getName())) {
+        if (accessType.equals(DataAccessType.FACADE)) {
             if (facade == null) {
                 facade = new DataAccessFacade();
             }

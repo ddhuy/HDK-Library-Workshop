@@ -1,7 +1,7 @@
 package miu.edu.mpp.hdk.model;
 
 import miu.edu.mpp.hdk.dao.DataAccess;
-import miu.edu.mpp.hdk.dao.DataAccessFactory;
+import miu.edu.mpp.hdk.dao.impl.DataAccessFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;

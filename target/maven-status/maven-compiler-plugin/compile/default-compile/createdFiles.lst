@@ -3,3 +3,4 @@ miu/edu/mpp/hdk/exception/DataAccessException.class
 miu/edu/mpp/hdk/enums/Auth.class
 miu/edu/mpp/hdk/exception/LoginException.class
 miu/edu/mpp/hdk/enums/StorageType.class
+miu/edu/mpp/hdk/dao/impl/DataAccessMongo.class
