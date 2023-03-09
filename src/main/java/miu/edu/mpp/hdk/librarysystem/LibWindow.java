@@ -1,4 +1,4 @@
-package librarysystem;
+package miu.edu.mpp.hdk.librarysystem;
 
 public interface LibWindow {
 	void init();

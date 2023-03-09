@@ -1,4 +1,4 @@
-package dataaccess;
+package miu.edu.mpp.hdk.dataaccess;
 
 import java.io.Serializable;
 

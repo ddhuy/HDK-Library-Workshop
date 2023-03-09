@@ -1,13 +1,13 @@
-package business;
+package miu.edu.mpp.hdk.business;
+
+import miu.edu.mpp.hdk.dataaccess.Auth;
+import miu.edu.mpp.hdk.dataaccess.DataAccess;
+import miu.edu.mpp.hdk.dataaccess.DataAccessFacade;
+import miu.edu.mpp.hdk.dataaccess.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import dataaccess.Auth;
-import dataaccess.DataAccess;
-import dataaccess.DataAccessFacade;
-import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
@@ -28,18 +28,13 @@ public class SystemController implements ControllerInterface {
 	@Override
 	public List<String> allMemberIds() {
 		DataAccess da = new DataAccessFacade();
-		List<String> retval = new ArrayList<>();
-		retval.addAll(da.readMemberMap().keySet());
-		return retval;
+		return new ArrayList<>(da.readMemberMap().keySet());
 	}
 	
 	@Override
 	public List<String> allBookIds() {
 		DataAccess da = new DataAccessFacade();
-		List<String> retval = new ArrayList<>();
-		retval.addAll(da.readBooksMap().keySet());
-		return retval;
+		return new ArrayList<>(da.readBooksMap().keySet());
 	}
-	
-	
+
 }
