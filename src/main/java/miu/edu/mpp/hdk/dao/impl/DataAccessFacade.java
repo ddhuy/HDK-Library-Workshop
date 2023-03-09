@@ -21,7 +21,7 @@ import java.util.List;
 public class DataAccessFacade implements DataAccess {
 
     private static final String OUTPUT_DIR = System.getProperty("user.dir")
-            + "/src/main/java/miu/edu/mpp/hdk/dataaccess/storage"; //for Unix file system
+            + "/src/main/java/miu/edu/mpp/hdk/dao/storage"; //for Unix file system
     //			+ "\\src\\dataaccess\\storage"; //for Windows file system
     private static final String DATE_PATTERN = "MM/dd/yyyy";
 
