@@ -5,6 +5,7 @@ import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import miu.edu.mpp.hdk.dao.DataAccess;
+import miu.edu.mpp.hdk.enums.StorageType;
 import miu.edu.mpp.hdk.model.Book;
 import miu.edu.mpp.hdk.model.LibraryMember;
 import miu.edu.mpp.hdk.model.User;
@@ -22,7 +23,7 @@ public class DataAccessMongo implements DataAccess {
 
     static final DataAccessMongo INSTANCE = new DataAccessMongo();
 
-//    private final MongoDatabase database;
+    private final MongoDatabase database;
 
     private DataAccessMongo() {
         // Creating a Mongo client
@@ -33,24 +34,24 @@ public class DataAccessMongo implements DataAccess {
         System.out.println("Connected to the database successfully");
 
         // Accessing the database
-        MongoDatabase database = mongo.getDatabase(DB_NAME);
+        database = mongo.getDatabase(DB_NAME);
         System.out.println("Credentials ::"+ credential);
 
+        // clear all collections
         for (String name : database.listCollectionNames()) {
-            System.out.println(name);
             // Retrieving a collection
             MongoCollection<Document> collection = database.getCollection(name);
             // Dropping a Collection
             collection.drop();
-            // Creating a collection
-            database.createCollection(name);
-            System.out.println(String.format("Collection %s created successfully", name));
+            System.out.printf("Collection %s dropped successfully%n", name);
         }
 
-    }
-
-    public void initData(){
-
+        // init collections
+        for(StorageType type : StorageType.values()){
+            // Creating a collection
+            database.createCollection(type.name());
+            System.out.printf("Collection %s created successfully%n", type.name());
+        }
     }
 
     @Override
