@@ -8,8 +8,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import miu.edu.mpp.hdk.dao.DataAccess;
 import miu.edu.mpp.hdk.dao.DataConstant;
-import miu.edu.mpp.hdk.enums.StorageType;
+import miu.edu.mpp.hdk.enums.DBCollection;
 import miu.edu.mpp.hdk.model.Book;
+import miu.edu.mpp.hdk.model.CheckoutRecord;
 import miu.edu.mpp.hdk.model.LibraryMember;
 import miu.edu.mpp.hdk.model.User;
 import org.bson.Document;
@@ -17,12 +18,10 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
-import static miu.edu.mpp.hdk.enums.StorageType.BOOKS;
-import static miu.edu.mpp.hdk.enums.StorageType.MEMBERS;
-import static miu.edu.mpp.hdk.enums.StorageType.USERS;
+import static miu.edu.mpp.hdk.enums.DBCollection.BOOKS;
+import static miu.edu.mpp.hdk.enums.DBCollection.MEMBERS;
+import static miu.edu.mpp.hdk.enums.DBCollection.USERS;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
@@ -64,18 +63,17 @@ public final class DataAccessMongo implements DataAccess {
             collection.drop();
             System.out.printf("Collection %s dropped successfully%n", name);
         }
-
-        database.createCollection(BOOKS.name());
+        for (DBCollection collection : DBCollection.values()) {
+            database.createCollection(collection.name());
+        }
         MongoCollection<Book> books = database.getCollection(BOOKS.name(), Book.class);
         books.insertMany(DataConstant.bookData());
         System.out.printf("Collection %s created successfully%n", BOOKS);
 
-        database.createCollection(MEMBERS.name());
         MongoCollection<LibraryMember> members = database.getCollection(MEMBERS.name(), LibraryMember.class);
         members.insertMany(DataConstant.libraryMemberData());
         System.out.printf("Collection %s created successfully%n", MEMBERS);
 
-        database.createCollection(USERS.name());
         MongoCollection<User> users = database.getCollection(USERS.name(), User.class);
         users.insertMany(DataConstant.userData());
         System.out.printf("Collection %s created successfully%n", USERS);
@@ -115,12 +113,74 @@ public final class DataAccessMongo implements DataAccess {
     }
 
     @Override
-    public void saveToStorage(StorageType type, Object ob) {
+    public void saveToStorage(DBCollection type, Object ob) {
+        switch (type) {
+            case CHECKOUT_RECORD -> {
+                MongoCollection<CheckoutRecord> collections = database.getCollection(type.name(), CheckoutRecord.class);
+                collections.insertOne((CheckoutRecord) ob);
+            }
+            case USERS -> {
+                MongoCollection<User> collections = database.getCollection(type.name(), User.class);
+                collections.insertOne((User) ob);
+            }
+            case BOOKS -> {
+                MongoCollection<Book> collections = database.getCollection(type.name(), Book.class);
+                collections.insertOne((Book) ob);
+
+            }
+            case MEMBERS -> {
+                MongoCollection<LibraryMember> collections = database.getCollection(type.name(), LibraryMember.class);
+                collections.insertOne((LibraryMember) ob);
+            }
+            default -> {
+            }
+        }
+    }
+
+    @Override
+    public void updateToStorage(DBCollection type, Object ob) {
 
     }
 
     @Override
-    public void updateToStorage(StorageType type, Object ob) {
-
+    public HashMap<String, Object> getDataCollection(DBCollection type) {
+        HashMap<String, Object> map = new HashMap<>();
+        switch (type) {
+            case CHECKOUT_RECORD -> {
+                MongoCollection<CheckoutRecord> collections = database.getCollection(type.name(), CheckoutRecord.class);
+                FindIterable<CheckoutRecord> iterDoc = collections.find();
+                for (CheckoutRecord i : iterDoc) {
+                    map.put(i.getCheckoutDate().toString(), i);
+                }
+                return map;
+            }
+            case USERS -> {
+                MongoCollection<User> collections = database.getCollection(type.name(), User.class);
+                FindIterable<User> iterDoc = collections.find();
+                for (User i : iterDoc) {
+                    map.put(i.getId(), i);
+                }
+                return map;
+            }
+            case BOOKS -> {
+                MongoCollection<Book> collections = database.getCollection(type.name(), Book.class);
+                FindIterable<Book> iterDoc = collections.find();
+                for (Book i : iterDoc) {
+                    map.put(i.getIsbn(), i);
+                }
+                return map;
+            }
+            case MEMBERS -> {
+                MongoCollection<LibraryMember> collections = database.getCollection(type.name(), LibraryMember.class);
+                FindIterable<LibraryMember> iterDoc = collections.find();
+                for (LibraryMember i : iterDoc) {
+                    map.put(i.getMemberId(), i);
+                }
+                return map;
+            }
+            default -> {
+                return map;
+            }
+        }
     }
 }

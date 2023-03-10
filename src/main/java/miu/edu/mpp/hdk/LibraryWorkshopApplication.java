@@ -171,7 +171,6 @@ public class LibraryWorkshopApplication extends JFrame {
 
     public void auth(Auth role) {
         this.linkList.setCellRenderer(this.renderLeftMenuList(role));
-        this.updateCards();
     }
 
     private void centreOnDesktop(Component component) {
@@ -185,10 +184,6 @@ public class LibraryWorkshopApplication extends JFrame {
     private void setUpCards() {
         cardDeck = new JPanel(new CardLayout());
         menus.forEach((key, value) -> cardDeck.add(key, value.getContent()));
-    }
-
-    private void updateCards() {
-
     }
 
     public void selectMenu(String name) {

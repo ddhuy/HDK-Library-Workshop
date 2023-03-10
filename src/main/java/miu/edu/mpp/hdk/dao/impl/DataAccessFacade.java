@@ -1,11 +1,11 @@
 package miu.edu.mpp.hdk.dao.impl;
 
+import miu.edu.mpp.hdk.dao.DataAccess;
 import miu.edu.mpp.hdk.dao.DataConstant;
+import miu.edu.mpp.hdk.enums.DBCollection;
 import miu.edu.mpp.hdk.model.Book;
 import miu.edu.mpp.hdk.model.LibraryMember;
-import miu.edu.mpp.hdk.dao.DataAccess;
 import miu.edu.mpp.hdk.model.User;
-import miu.edu.mpp.hdk.enums.StorageType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -38,7 +38,7 @@ public final class DataAccessFacade implements DataAccess {
     public HashMap<String, Book> readBooksMap() {
         //Returns a Map with name/value pairs being
         //   isbn -> Book
-        return (HashMap<String, Book>) readFromStorage(StorageType.BOOKS);
+        return (HashMap<String, Book>) readFromStorage(DBCollection.BOOKS);
     }
 
     @SuppressWarnings("unchecked")
@@ -46,7 +46,7 @@ public final class DataAccessFacade implements DataAccess {
         //Returns a Map with name/value pairs being
         //   memberId -> LibraryMember
         return (HashMap<String, LibraryMember>) readFromStorage(
-                StorageType.MEMBERS);
+                DBCollection.MEMBERS);
     }
 
 
@@ -54,12 +54,12 @@ public final class DataAccessFacade implements DataAccess {
     public HashMap<String, User> readUserMap() {
         //Returns a Map with name/value pairs being
         //   userId -> User
-        return (HashMap<String, User>) readFromStorage(StorageType.USERS);
+        return (HashMap<String, User>) readFromStorage(DBCollection.USERS);
     }
 
 
     @Override
-    public void saveToStorage(StorageType type, Object ob) {
+    public void saveToStorage(DBCollection type, Object ob) {
         ObjectOutputStream out = null;
         try {
             Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
@@ -78,33 +78,37 @@ public final class DataAccessFacade implements DataAccess {
     }
 
     @Override
-    public void updateToStorage(StorageType type, Object ob) {
-        saveToStorage( type,  ob);
+    public void updateToStorage(DBCollection type, Object ob) {
+        saveToStorage(type, ob);
     }
 
-    /////load methods - these place test data into the storage area
+    @Override
+    public HashMap<String, Object> getDataCollection(DBCollection type) {
+        return null;
+    }
+/////load methods - these place test data into the storage area
     ///// - used just once at startup
 
 
     private void loadBookMap(List<Book> bookList) {
         HashMap<String, Book> books = new HashMap<String, Book>();
         bookList.forEach(book -> books.put(book.getIsbn(), book));
-        saveToStorage(StorageType.BOOKS, books);
+        saveToStorage(DBCollection.BOOKS, books);
     }
 
     private void loadUserMap(List<User> userList) {
         HashMap<String, User> users = new HashMap<>();
         userList.forEach(user -> users.put(user.getId(), user));
-        saveToStorage(StorageType.USERS, users);
+        saveToStorage(DBCollection.USERS, users);
     }
 
     private void loadMemberMap(List<LibraryMember> memberList) {
         HashMap<String, LibraryMember> members = new HashMap<>();
         memberList.forEach(member -> members.put(member.getMemberId(), member));
-        saveToStorage(StorageType.MEMBERS, members);
+        saveToStorage(DBCollection.MEMBERS, members);
     }
 
-    private Object readFromStorage(StorageType type) {
+    private Object readFromStorage(DBCollection type) {
         ObjectInputStream in = null;
         Object retVal = null;
         try {

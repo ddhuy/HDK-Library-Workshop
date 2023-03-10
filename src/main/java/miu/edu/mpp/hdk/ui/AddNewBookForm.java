@@ -42,4 +42,8 @@ public class AddNewBookForm extends MainForm {
         return mainPanel;
     }
 
+    @Override
+    public void refresh() {
+
+    }
 }

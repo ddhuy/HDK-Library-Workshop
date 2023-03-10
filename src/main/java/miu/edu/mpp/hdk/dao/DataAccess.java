@@ -1,6 +1,6 @@
 package miu.edu.mpp.hdk.dao;
 
-import miu.edu.mpp.hdk.enums.StorageType;
+import miu.edu.mpp.hdk.enums.DBCollection;
 import miu.edu.mpp.hdk.model.Book;
 import miu.edu.mpp.hdk.model.LibraryMember;
 import miu.edu.mpp.hdk.model.User;
@@ -11,6 +11,7 @@ public interface DataAccess {
 	HashMap<String, Book> readBooksMap();
 	HashMap<String, User> readUserMap();
 	HashMap<String, LibraryMember> readMemberMap();
-	void saveToStorage(StorageType type, Object ob);
-	void updateToStorage(StorageType type, Object ob);
+	void saveToStorage(DBCollection type, Object ob);
+	void updateToStorage(DBCollection type, Object ob);
+	HashMap<String, Object> getDataCollection(DBCollection type);
 }

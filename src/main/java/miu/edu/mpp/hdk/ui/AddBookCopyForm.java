@@ -18,4 +18,9 @@ public class AddBookCopyForm extends MainForm {
     public JPanel getContent() {
         return mainPanel;
     }
+
+    @Override
+    public void refresh() {
+
+    }
 }

@@ -13,5 +13,6 @@ public abstract class MainForm {
     }
 
     public abstract JPanel getContent();
+    public abstract void refresh();
 
 }

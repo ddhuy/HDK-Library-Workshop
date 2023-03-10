@@ -15,6 +15,7 @@ public class CheckoutRecordForm extends MainForm {
     public CheckoutRecordForm(SystemController system) {
         super(system);
         memberController = new MemberController();
+        areTitle.setText(memberController.printCheckoutRecord());
     }
 
     @Override
@@ -22,7 +23,7 @@ public class CheckoutRecordForm extends MainForm {
         return mainPanel;
     }
 
-    public void setTitleTxtArea(String text) {
-        this.areTitle.setText(text);
+    public void refresh() {
+        this.areTitle.setText(memberController.printCheckoutRecord());
     }
 }

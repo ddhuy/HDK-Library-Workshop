@@ -4,6 +4,7 @@ import miu.edu.mpp.hdk.controller.BookController;
 import miu.edu.mpp.hdk.controller.MemberController;
 import miu.edu.mpp.hdk.controller.SystemController;
 import miu.edu.mpp.hdk.model.Book;
+import miu.edu.mpp.hdk.model.CheckoutRecord;
 import miu.edu.mpp.hdk.model.LibraryMember;
 
 import javax.swing.JButton;
@@ -31,18 +32,19 @@ public class CheckoutBookForm extends MainForm {
         btnCheckout.addActionListener(e -> {
             LibraryMember member = (LibraryMember) comboMember.getSelectedItem();
             Book book = (Book) comboBook.getSelectedItem();
-            System.out.println(member);
-            System.out.println(book);
-//            if (firstName.isBlank() || lastName.isBlank() || bookTitle.isBlank()) {
-//                system.error("All fields must be nonempty");
-//                return;
-//            }
-//            controller.addBookTitle(firstName,  lastName, bookTitle);
+            CheckoutRecord record = new CheckoutRecord(member, book);
+            memberController.checkout(record);
+            system.info("Checkout Book Successfully!");
         });
     }
 
     @Override
     public JPanel getContent() {
         return mainPanel;
+    }
+
+    @Override
+    public void refresh() {
+
     }
 }

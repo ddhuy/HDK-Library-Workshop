@@ -18,4 +18,9 @@ public class AddNewMemberForm extends MainForm {
     public JPanel getContent() {
         return mainPanel;
     }
+
+    @Override
+    public void refresh() {
+
+    }
 }
