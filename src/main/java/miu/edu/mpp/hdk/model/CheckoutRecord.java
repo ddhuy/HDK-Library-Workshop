@@ -43,6 +43,12 @@ public class CheckoutRecord {
         this.checkoutDate = checkoutDate;
     }
 
+    public String print(){
+        return "member=" + member.getMemberId() +
+                ", book=" + book.getIsbn() +
+                ",\ncheckoutDate=" + checkoutDate;
+    }
+
     @Override
     public String toString() {
         return "CheckoutRecord{" +

@@ -14,20 +14,21 @@ import java.util.StringJoiner;
 public class MemberController {
     private final DataAccess da = DataAccessFactory.createDataAccess(DataAccessType.MONGO);
 
-    public List<LibraryMember> getListMember(){
+    public List<LibraryMember> getListMember() {
         return da.readMemberMap().values().stream().toList();
     }
 
-    public void checkout(CheckoutRecord record){
+    public void checkout(CheckoutRecord record) {
         da.saveToStorage(DBCollection.CHECKOUT_RECORD, record);
     }
 
-    public String printCheckoutRecord(){
+    public String printCheckoutRecord() {
         StringJoiner joiner = new StringJoiner("\n");
         HashMap<String, Object> map = da.getDataCollection(DBCollection.CHECKOUT_RECORD);
-        map.values().forEach(ob->{
+        map.values().forEach(ob -> {
             CheckoutRecord record = (CheckoutRecord) ob;
-            joiner.add(record.toString());
+            joiner.add(record.print());
+            joiner.add("======================================");
         });
         return joiner.toString();
     }
