@@ -4,6 +4,7 @@ import miu.edu.mpp.hdk.controller.BookController;
 import miu.edu.mpp.hdk.controller.MemberController;
 import miu.edu.mpp.hdk.controller.SystemController;
 import miu.edu.mpp.hdk.model.Book;
+import miu.edu.mpp.hdk.model.BookCopy;
 import miu.edu.mpp.hdk.model.CheckoutRecord;
 import miu.edu.mpp.hdk.model.LibraryMember;
 
@@ -29,10 +30,22 @@ public class CheckoutBookForm extends MainForm {
         btnCheckout.addActionListener(e -> {
             LibraryMember member = (LibraryMember) comboMember.getSelectedItem();
             Book book = (Book) comboBook.getSelectedItem();
-            CheckoutRecord record = new CheckoutRecord(member, book, system.user.getId());
-            memberController.checkout(record);
-            system.info("Checkout Book Successfully!");
-            system.refresh();
+            if(book == null || !book.isAvailable()){
+                system.error("Book Unavailable!");
+            } else {
+                List<BookCopy> copies = book.getCopies();
+                for (BookCopy copy : copies){
+                    if(copy.isAvailable()){
+                        copy.setAvailable(false);
+                        break;
+                    }
+                }
+                book.setCopies(copies);
+                memberController.checkout(new CheckoutRecord(member, book, system.user.getId()));
+                bookController.updateBook(book);
+                system.info("Checkout Book Successfully!");
+                system.refresh();
+            }
         });
     }
 

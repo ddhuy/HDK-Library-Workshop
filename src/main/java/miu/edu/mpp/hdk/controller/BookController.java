@@ -2,6 +2,7 @@ package miu.edu.mpp.hdk.controller;
 
 import miu.edu.mpp.hdk.dao.DataAccess;
 import miu.edu.mpp.hdk.dao.impl.DataAccessFactory;
+import miu.edu.mpp.hdk.enums.DBCollection;
 import miu.edu.mpp.hdk.enums.DataAccessType;
 import miu.edu.mpp.hdk.model.Book;
 
@@ -13,5 +14,9 @@ public class BookController {
 
     public List<Book> getListBook(){
         return da.readBooksMap().values().stream().toList();
+    }
+
+    public void updateBook(Book book){
+        da.updateToStorage(DBCollection.BOOKS, book);
     }
 }

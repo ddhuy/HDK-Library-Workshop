@@ -72,9 +72,12 @@ final public class Book implements Serializable {
         if (copies == null) {
             return false;
         }
-        return copies.stream()
-                .map(BookCopy::isAvailable)
-                .reduce(false, (x, y) -> x || y);
+        for (BookCopy bookCopy : copies) {
+            if (bookCopy.isAvailable()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

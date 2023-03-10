@@ -19,6 +19,7 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 
 import java.util.HashMap;
 
+import static com.mongodb.client.model.Filters.eq;
 import static miu.edu.mpp.hdk.enums.DBCollection.BOOKS;
 import static miu.edu.mpp.hdk.enums.DBCollection.MEMBERS;
 import static miu.edu.mpp.hdk.enums.DBCollection.USERS;
@@ -140,6 +141,21 @@ public final class DataAccessMongo implements DataAccess {
     @Override
     public void updateToStorage(DBCollection type, Object ob) {
 
+        switch (type) {
+            case BOOKS -> {
+                Book newOb = (Book) ob;
+                MongoCollection<Book> collections = database.getCollection(type.name(), Book.class);
+                collections.replaceOne(eq("isbn", newOb.getIsbn()), newOb);
+
+            }
+            case MEMBERS -> {
+                LibraryMember newOb = (LibraryMember) ob;
+                MongoCollection<LibraryMember> collections = database.getCollection(type.name(), LibraryMember.class);
+                collections.replaceOne(eq("memberId", newOb.getMemberId()), newOb);
+            }
+            default -> {
+            }
+        }
     }
 
     @Override
