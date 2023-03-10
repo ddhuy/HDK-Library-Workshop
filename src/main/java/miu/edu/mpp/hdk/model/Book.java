@@ -15,25 +15,28 @@ final public class Book implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 6110690276685962829L;
-    private BookCopy[] copies;
+    private List<BookCopy> copies;
     private List<Author> authors;
     private String isbn;
     private String title;
     private int maxCheckoutLength;
+
+    public Book() {
+    }
 
     public Book(String isbn, String title, int maxCheckoutLength, List<Author> authors) {
         this.isbn = isbn;
         this.title = title;
         this.maxCheckoutLength = maxCheckoutLength;
         this.authors = Collections.unmodifiableList(authors);
-        copies = new BookCopy[]{new BookCopy(this, 1, true)};
+        this.copies = List.of(new BookCopy(this, 1, true));
     }
 
     public void updateCopies(BookCopy copy) {
-        for (int i = 0; i < copies.length; ++i) {
-            BookCopy c = copies[i];
+        for (int i = 0; i < copies.size(); ++i) {
+            BookCopy c = copies.get(i);
             if (c.equals(copy)) {
-                copies[i] = copy;
+                copies.set(i, copy);
 
             }
         }
@@ -49,10 +52,10 @@ final public class Book implements Serializable {
     }
 
     public void addCopy() {
-        BookCopy[] newArr = new BookCopy[copies.length + 1];
-        System.arraycopy(copies, 0, newArr, 0, copies.length);
-        newArr[copies.length] = new BookCopy(this, copies.length + 1, true);
-        copies = newArr;
+        BookCopy[] newArr = new BookCopy[copies.size() + 1];
+        System.arraycopy(copies.toArray(), 0, newArr, 0, copies.size());
+        newArr[copies.size()] = new BookCopy(this, copies.size() + 1, true);
+        copies = Arrays.asList(newArr);
     }
 
 
@@ -69,8 +72,8 @@ final public class Book implements Serializable {
         if (copies == null) {
             return false;
         }
-        return Arrays.stream(copies)
-                .map(l -> l.isAvailable())
+        return copies.stream()
+                .map(BookCopy::isAvailable)
                 .reduce(false, (x, y) -> x || y);
     }
 
@@ -80,14 +83,14 @@ final public class Book implements Serializable {
     }
 
     public int getNumCopies() {
-        return copies.length;
+        return copies.size();
     }
 
     public String getTitle() {
         return title;
     }
 
-    public BookCopy[] getCopies() {
+    public List<BookCopy> getCopies() {
         return copies;
     }
 
@@ -101,7 +104,7 @@ final public class Book implements Serializable {
 
     public BookCopy getNextAvailableCopy() {
         Optional<BookCopy> optional
-                = Arrays.stream(copies)
+                = copies.stream()
                 .filter(BookCopy::isAvailable).findFirst();
         return optional.orElse(null);
     }
@@ -120,4 +123,23 @@ final public class Book implements Serializable {
     }
 
 
+    public void setCopies(List<BookCopy> copies) {
+        this.copies = copies;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setMaxCheckoutLength(int maxCheckoutLength) {
+        this.maxCheckoutLength = maxCheckoutLength;
+    }
 }

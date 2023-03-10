@@ -6,6 +6,10 @@ import java.io.Serializable;
 final public class LibraryMember extends Person implements Serializable {
     private String memberId;
 
+    public LibraryMember() {
+        super();
+    }
+
     public LibraryMember(String memberId, String fname, String lname, String tel, Address add) {
         super(fname, lname, tel, add);
         this.memberId = memberId;
@@ -16,6 +20,9 @@ final public class LibraryMember extends Person implements Serializable {
         return memberId;
     }
 
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
 
     @Override
     public String toString() {

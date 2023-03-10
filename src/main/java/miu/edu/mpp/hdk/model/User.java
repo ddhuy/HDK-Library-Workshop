@@ -15,6 +15,9 @@ final public class User implements Serializable {
     private String password;
     private Auth authorization;
 
+    public User() {
+    }
+
     public User(String id, String pass, Auth auth) {
         this.id = id;
         this.password = pass;
@@ -33,9 +36,21 @@ final public class User implements Serializable {
         return authorization;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAuthorization(Auth authorization) {
+        this.authorization = authorization;
+    }
+
     @Override
     public String toString() {
-        return "[" + id + ":" + password + ", " + authorization.toString() + "]";
+        return "[" + id + ":" + password + ", " + authorization + "]";
     }
 
 }
