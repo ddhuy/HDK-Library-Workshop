@@ -2,9 +2,11 @@ package miu.edu.mpp.hdk.enums;
 
 public enum MenuItem {
 
-    LOGIN_MENU("Login"),
-    TITLES_MENU("View Titles"),
-    ADD_BOOK_MENU("Add Book");
+    LOGIN("Login"),
+    CHECKOUT_BOOK("Checkout Book"),
+    ADD_BOOK("Add New Book"),
+    PRINT_CHECKOUT_RECORD("Print Checkout Record"),
+    ;
 
     private final String label;
 

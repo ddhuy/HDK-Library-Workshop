@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class MainTests {
 
-//    @Test
+    @Test
     public void testConnectionDB(){
         DataAccess data = DataAccessFactory.createDataAccess(DataAccessType.MONGO);
         HashMap<String, User> users = data.readUserMap();

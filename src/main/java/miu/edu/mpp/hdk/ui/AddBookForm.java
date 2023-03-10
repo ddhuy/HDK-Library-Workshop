@@ -1,18 +1,15 @@
 package miu.edu.mpp.hdk.ui;
 
-import miu.edu.mpp.hdk.controller.SystemController;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class AddBookForm {
+public class AddBookForm extends IForm {
     private JPanel addBookPanel;
     private JTextField firstNameTxt;
     private JTextField lastNameTxt;
     private JTextField bookTitleTxt;
     private JButton addBookButton;
-    private final SystemController controller = SystemController.INSTANCE;
 
     public AddBookForm() {
         controller.setAddBookForm(this);
@@ -20,7 +17,7 @@ public class AddBookForm {
             String firstName = firstNameTxt.getText();
             String lastName = lastNameTxt.getText().trim();
             String bookTitle = bookTitleTxt.getText().trim();
-            if(firstName.isBlank() || lastName.isBlank() || bookTitle.isBlank()){
+            if (firstName.isBlank() || lastName.isBlank() || bookTitle.isBlank()) {
                 controller.error("All fields must be nonempty");
                 return;
             }
@@ -28,7 +25,7 @@ public class AddBookForm {
         });
     }
 
-    public void cleanText(){
+    public void cleanText() {
         firstNameTxt.setText("");
         lastNameTxt.setText("");
         bookTitleTxt.setText("");

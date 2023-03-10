@@ -4,41 +4,31 @@ import miu.edu.mpp.hdk.LibraryWorkshopApplication;
 import miu.edu.mpp.hdk.dao.DataAccess;
 import miu.edu.mpp.hdk.dao.impl.DataAccessFactory;
 import miu.edu.mpp.hdk.enums.Auth;
-import miu.edu.mpp.hdk.exception.LoginException;
+import miu.edu.mpp.hdk.enums.DataAccessType;
+import miu.edu.mpp.hdk.model.LibraryMember;
 import miu.edu.mpp.hdk.model.User;
 import miu.edu.mpp.hdk.ui.AddBookForm;
-import miu.edu.mpp.hdk.ui.DetailForm;
+import miu.edu.mpp.hdk.ui.CheckoutBookForm;
+import miu.edu.mpp.hdk.ui.PrintCheckoutForm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class SystemController implements ControllerInterface {
 
     public static final SystemController INSTANCE = new SystemController();
 
     private LibraryWorkshopApplication application;
-    private DetailForm detailForm;
+    private CheckoutBookForm checkoutBookForm;
     private AddBookForm addBookForm;
-    private User user = new User("", "", Auth.ANONYMOUS);
+    private PrintCheckoutForm printCheckoutForm;
+    public Auth currentAuth = Auth.BOTH;
 
-    public static Auth currentAuth = null;
-    private final DataAccess da = DataAccessFactory.defaultDataAccess();
+    private final DataAccess da = DataAccessFactory.createDataAccess(DataAccessType.MONGO);
 
-    public void login(String id, String password) throws LoginException {
-        HashMap<String, User> map = da.readUserMap();
-        if (!map.containsKey(id)) {
-            throw new LoginException("ID " + id + " not found");
-        }
-        String passwordFound = map.get(id).getPassword();
-        if (!passwordFound.equals(password)) {
-            throw new LoginException("Password incorrect");
-        }
-        currentAuth = map.get(id).getAuthorization();
-
-    }
-
-    public void doLogin(String username, String password) {
+    public void login(String username, String password) {
         HashMap<String, User> map = da.readUserMap();
         if (!map.containsKey(username)) {
             this.application.error("ID " + username + " not found");
@@ -49,9 +39,9 @@ public class SystemController implements ControllerInterface {
             this.application.error("Password incorrect");
             return;
         }
-        this.user = map.get(username);
+        this.currentAuth = map.get(username).getAuthorization();
         this.application.info("Login successful");
-        this.application.auth(user.getAuthorization());
+        this.application.auth(currentAuth);
         this.refresh();
     }
 
@@ -70,20 +60,28 @@ public class SystemController implements ControllerInterface {
         this.application = application;
     }
 
-    public void setDetailForm(DetailForm detailForm) {
-        this.detailForm = detailForm;
-    }
-
     public void setAddBookForm(AddBookForm addBookForm) {
         this.addBookForm = addBookForm;
     }
 
-    public User getUser() {
-        return user;
+    public void setCheckoutBookForm(CheckoutBookForm checkoutBookForm) {
+        this.checkoutBookForm = checkoutBookForm;
+    }
+
+    public void setPrintCheckoutForm(PrintCheckoutForm printCheckoutForm) {
+        this.printCheckoutForm = printCheckoutForm;
     }
 
     public void refresh() {
-
+        if (currentAuth.equals(Auth.BOTH) || currentAuth.equals(Auth.LIBRARIAN)) {
+            StringJoiner joiner = new StringJoiner("\n");
+            HashMap<String, LibraryMember> members = da.readMemberMap();
+            members.values().forEach(m -> joiner.add(m.toString()));
+            printCheckoutForm.setTitleTxtArea(joiner.toString());
+        } else {
+            printCheckoutForm.setTitleTxtArea("");
+        }
+        addBookForm.cleanText();
     }
 
     public void error(String msg) {

@@ -1,18 +1,15 @@
 package miu.edu.mpp.hdk.ui;
 
-import miu.edu.mpp.hdk.controller.SystemController;
-
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class DetailForm {
+public class PrintCheckoutForm extends IForm {
 
     private JPanel detailPanel;
     private JTextArea areTitle;
 
-    public DetailForm() {
-        SystemController controller = SystemController.INSTANCE;
-        controller.setDetailForm(this);
+    public PrintCheckoutForm() {
+        controller.setPrintCheckoutForm(this);
     }
 
     public JPanel getContent() {

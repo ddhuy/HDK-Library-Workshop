@@ -3,7 +3,8 @@ package miu.edu.mpp.hdk;
 import miu.edu.mpp.hdk.controller.SystemController;
 import miu.edu.mpp.hdk.enums.Auth;
 import miu.edu.mpp.hdk.ui.AddBookForm;
-import miu.edu.mpp.hdk.ui.DetailForm;
+import miu.edu.mpp.hdk.ui.CheckoutBookForm;
+import miu.edu.mpp.hdk.ui.PrintCheckoutForm;
 import miu.edu.mpp.hdk.ui.LoginForm;
 import miu.edu.mpp.hdk.view.Util;
 
@@ -28,9 +29,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static miu.edu.mpp.hdk.enums.MenuItem.ADD_BOOK_MENU;
-import static miu.edu.mpp.hdk.enums.MenuItem.LOGIN_MENU;
-import static miu.edu.mpp.hdk.enums.MenuItem.TITLES_MENU;
+import static miu.edu.mpp.hdk.enums.MenuItem.*;
 
 public class LibraryWorkshopApplication extends JFrame {
 
@@ -41,7 +40,7 @@ public class LibraryWorkshopApplication extends JFrame {
     JList<String> linkList;
     JSplitPane splitPane;
     JLabel message = new JLabel("Welcome to the Library workshop!");
-    Map.Entry<Integer, String> currentMenu = Map.entry(0, LOGIN_MENU.getLabel());
+    Map.Entry<Integer, String> currentMenu = Map.entry(0, LOGIN.getLabel());
     JPanel footer;
     SystemController controller;
 
@@ -67,16 +66,17 @@ public class LibraryWorkshopApplication extends JFrame {
 
     private void initLeftMenu() {
         DefaultListModel<String> model = new DefaultListModel<>();
-        model.addElement(LOGIN_MENU.getLabel());
-        model.addElement(TITLES_MENU.getLabel());
-        model.addElement(ADD_BOOK_MENU.getLabel());
+        model.addElement(LOGIN.getLabel());
+        model.addElement(CHECKOUT_BOOK.getLabel());
+        model.addElement(ADD_BOOK.getLabel());
+        model.addElement(PRINT_CHECKOUT_RECORD.getLabel());
         this.linkList = new JList<>(model);
-        this.linkList.setCellRenderer(this.renderLeftMenuList(Auth.ANONYMOUS));
+        this.linkList.setCellRenderer(this.renderLeftMenuList(controller.currentAuth));
         this.linkList.addListSelectionListener((event) -> {
             this.message.setText("");
             String item = linkList.getSelectedValue();
 //            selectMenu(item);
-            if (authMenu(controller.getUser().getAuthorization()).contains(item)) {
+            if (authMenu(controller.currentAuth).contains(item)) {
                 currentMenu = Map.entry(linkList.getLeadSelectionIndex(), item);
                 selectMenu(item);
             } else {
@@ -109,12 +109,13 @@ public class LibraryWorkshopApplication extends JFrame {
 
     private Set<String> authMenu(Auth role) {
         Set<String> menus = new HashSet<>();
-        menus.add(LOGIN_MENU.getLabel());
+        menus.add(LOGIN.getLabel());
         if (role.equals(Auth.BOTH) || role.equals(Auth.ADMIN)) {
-            menus.add(ADD_BOOK_MENU.getLabel());
+            menus.add(ADD_BOOK.getLabel());
         }
         if (role.equals(Auth.BOTH) || role.equals(Auth.LIBRARIAN)) {
-            menus.add(TITLES_MENU.getLabel());
+            menus.add(CHECKOUT_BOOK.getLabel());
+            menus.add(PRINT_CHECKOUT_RECORD.getLabel());
         }
         return menus;
     }
@@ -153,9 +154,10 @@ public class LibraryWorkshopApplication extends JFrame {
 
     private void setUpCards() {
         cardDeck = new JPanel(new CardLayout());
-        cardDeck.add(new LoginForm().getContent(), LOGIN_MENU.getLabel());
-        cardDeck.add(new DetailForm().getContent(), TITLES_MENU.getLabel());
-        cardDeck.add(new AddBookForm().getContent(), ADD_BOOK_MENU.getLabel());
+        cardDeck.add(new LoginForm().getContent(), LOGIN.getLabel());
+        cardDeck.add(new CheckoutBookForm().getContent(), CHECKOUT_BOOK.getLabel());
+        cardDeck.add(new AddBookForm().getContent(), ADD_BOOK.getLabel());
+        cardDeck.add(new PrintCheckoutForm().getContent(), PRINT_CHECKOUT_RECORD.getLabel());
     }
 
     private void updateCards() {
