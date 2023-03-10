@@ -71,4 +71,8 @@ public class SystemController implements ControllerInterface {
     public void info(String msg) {
         this.application.info(msg);
     }
+
+    public void refresh() {
+        this.application.refresh();
+    }
 }

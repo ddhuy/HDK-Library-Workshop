@@ -25,16 +25,14 @@ public class CheckoutBookForm extends MainForm {
         super(system);
         memberController = new MemberController();
         bookController = new BookController();
-        List<LibraryMember> members = memberController.getListMember();
-        members.forEach(comboMember::addItem);
-        List<Book> books = bookController.getListBook();
-        books.forEach(comboBook::addItem);
+        this.refresh();
         btnCheckout.addActionListener(e -> {
             LibraryMember member = (LibraryMember) comboMember.getSelectedItem();
             Book book = (Book) comboBook.getSelectedItem();
             CheckoutRecord record = new CheckoutRecord(member, book, system.user.getId());
             memberController.checkout(record);
             system.info("Checkout Book Successfully!");
+            system.refresh();
         });
     }
 
@@ -45,6 +43,12 @@ public class CheckoutBookForm extends MainForm {
 
     @Override
     public void refresh() {
+        comboMember.removeAllItems();
+        List<LibraryMember> members = memberController.getListMember();
+        members.forEach(comboMember::addItem);
 
+        comboBook.removeAllItems();
+        List<Book> books = bookController.getListBook();
+        books.forEach(comboBook::addItem);
     }
 }

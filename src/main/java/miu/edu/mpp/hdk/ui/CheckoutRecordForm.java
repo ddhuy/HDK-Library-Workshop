@@ -15,7 +15,7 @@ public class CheckoutRecordForm extends MainForm {
     public CheckoutRecordForm(SystemController system) {
         super(system);
         memberController = new MemberController();
-        areTitle.setText(memberController.printCheckoutRecord());
+        refresh();
     }
 
     @Override

@@ -60,7 +60,7 @@ public class LibraryWorkshopApplication extends JFrame {
     LibraryWorkshopApplication() {
         mainController = SystemController.INSTANCE;
         mainController.setApplication(this);
-         menus = new LinkedHashMap<>() {{
+        menus = new LinkedHashMap<>() {{
             put(LOGIN.getLabel(), new LoginForm(mainController));
             put(CHECKOUT_BOOK.getLabel(), new CheckoutBookForm(mainController));
             put(ADD_NEW_BOOK.getLabel(), new AddNewBookForm(mainController));
@@ -167,6 +167,10 @@ public class LibraryWorkshopApplication extends JFrame {
     public void info(String message) {
         this.message.setForeground(Util.INFO_MESSAGE_COLOR);
         this.message.setText(message);
+    }
+
+    public void refresh() {
+        menus.values().forEach(MainForm::refresh);
     }
 
     public void auth(Auth role) {

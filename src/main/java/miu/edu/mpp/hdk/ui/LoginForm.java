@@ -32,4 +32,9 @@ public class LoginForm extends MainForm {
         return mainPanel;
     }
 
+    @Override
+    public void refresh() {
+
+    }
+
 }
