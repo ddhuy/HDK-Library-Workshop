@@ -8,6 +8,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import miu.edu.mpp.hdk.dao.DataAccess;
 import miu.edu.mpp.hdk.dao.DataConstant;
+import miu.edu.mpp.hdk.enums.StorageType;
 import miu.edu.mpp.hdk.model.Book;
 import miu.edu.mpp.hdk.model.LibraryMember;
 import miu.edu.mpp.hdk.model.User;
@@ -114,7 +115,12 @@ public final class DataAccessMongo implements DataAccess {
     }
 
     @Override
-    public void saveNewMember(LibraryMember member) {
+    public void saveToStorage(StorageType type, Object ob) {
+
+    }
+
+    @Override
+    public void updateToStorage(StorageType type, Object ob) {
 
     }
 }

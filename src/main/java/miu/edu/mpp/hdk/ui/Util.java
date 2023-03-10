@@ -1,4 +1,4 @@
-package miu.edu.mpp.hdk.view;
+package miu.edu.mpp.hdk.ui;
 
 import javax.swing.JLabel;
 import java.awt.Color;

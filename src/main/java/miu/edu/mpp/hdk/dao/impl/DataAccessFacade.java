@@ -34,14 +34,6 @@ public final class DataAccessFacade implements DataAccess {
         this.loadMemberMap(DataConstant.libraryMemberData());
     }
 
-    //implement: other save operations
-    public void saveNewMember(LibraryMember member) {
-        HashMap<String, LibraryMember> mems = readMemberMap();
-        String memberId = member.getMemberId();
-        mems.put(memberId, member);
-        saveToStorage(StorageType.MEMBERS, mems);
-    }
-
     @SuppressWarnings("unchecked")
     public HashMap<String, Book> readBooksMap() {
         //Returns a Map with name/value pairs being
@@ -66,6 +58,30 @@ public final class DataAccessFacade implements DataAccess {
     }
 
 
+    @Override
+    public void saveToStorage(StorageType type, Object ob) {
+        ObjectOutputStream out = null;
+        try {
+            Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
+            out = new ObjectOutputStream(Files.newOutputStream(path));
+            out.writeObject(ob);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+
+    @Override
+    public void updateToStorage(StorageType type, Object ob) {
+        saveToStorage( type,  ob);
+    }
+
     /////load methods - these place test data into the storage area
     ///// - used just once at startup
 
@@ -86,24 +102,6 @@ public final class DataAccessFacade implements DataAccess {
         HashMap<String, LibraryMember> members = new HashMap<>();
         memberList.forEach(member -> members.put(member.getMemberId(), member));
         saveToStorage(StorageType.MEMBERS, members);
-    }
-
-    private void saveToStorage(StorageType type, Object ob) {
-        ObjectOutputStream out = null;
-        try {
-            Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
-            out = new ObjectOutputStream(Files.newOutputStream(path));
-            out.writeObject(ob);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (Exception e) {
-                }
-            }
-        }
     }
 
     private Object readFromStorage(StorageType type) {

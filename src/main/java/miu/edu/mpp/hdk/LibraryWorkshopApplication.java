@@ -10,7 +10,7 @@ import miu.edu.mpp.hdk.ui.CheckoutRecordForm;
 import miu.edu.mpp.hdk.ui.LoginForm;
 import miu.edu.mpp.hdk.ui.MainForm;
 import miu.edu.mpp.hdk.ui.UpdateExistMemberForm;
-import miu.edu.mpp.hdk.view.Util;
+import miu.edu.mpp.hdk.ui.Util;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -55,19 +55,20 @@ public class LibraryWorkshopApplication extends JFrame {
     Map.Entry<Integer, String> currentMenu = Map.entry(0, LOGIN.getLabel());
     JPanel footer;
     SystemController controller;
-    LinkedHashMap<String, MainForm> menus = new LinkedHashMap<>() {{
-        put(LOGIN.getLabel(), new LoginForm());
-        put(CHECKOUT_BOOK.getLabel(), new CheckoutBookForm());
-        put(ADD_NEW_BOOK.getLabel(), new AddNewBookForm());
-        put(ADD_BOOK_COPY.getLabel(), new AddBookCopyForm());
-        put(ADD_NEW_MEMBER.getLabel(), new AddNewMemberForm());
-        put(UPDATE_EXIST_MEMBER.getLabel(), new UpdateExistMemberForm());
-        put(CHECKOUT_RECORD.getLabel(), new CheckoutRecordForm());
-    }};
+    LinkedHashMap<String, MainForm> menus;
 
     LibraryWorkshopApplication() {
         controller = SystemController.INSTANCE;
         controller.setApplication(this);
+        menus = new LinkedHashMap<>() {{
+            put(LOGIN.getLabel(), new LoginForm(controller));
+            put(CHECKOUT_BOOK.getLabel(), new CheckoutBookForm(controller));
+            put(ADD_NEW_BOOK.getLabel(), new AddNewBookForm(controller));
+            put(ADD_BOOK_COPY.getLabel(), new AddBookCopyForm(controller));
+            put(ADD_NEW_MEMBER.getLabel(), new AddNewMemberForm(controller));
+            put(UPDATE_EXIST_MEMBER.getLabel(), new UpdateExistMemberForm(controller));
+            put(CHECKOUT_RECORD.getLabel(), new CheckoutRecordForm(controller));
+        }};
         setTitle("Library Workshop");
         initializeWindow();
         setSize(600, 450);

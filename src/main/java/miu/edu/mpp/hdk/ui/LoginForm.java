@@ -1,5 +1,7 @@
 package miu.edu.mpp.hdk.ui;
 
+import miu.edu.mpp.hdk.controller.SystemController;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -12,15 +14,16 @@ public class LoginForm extends MainForm {
     private JPanel mainPanel;
     private JButton btnLogin;
 
-    public LoginForm() {
+    public LoginForm(SystemController system) {
+        super(system);
         btnLogin.addActionListener(e -> {
             String username = txtUsername.getText().trim();
             char[] password = txtPassword.getPassword();
             if (username.isBlank() || password == null) {
-                controller.error("Id and Password fields must be nonempty");
+                system.error("Id and Password fields must be nonempty");
                 return;
             }
-            controller.login(username, new String(password));
+            system.login(username, new String(password));
         });
     }
 

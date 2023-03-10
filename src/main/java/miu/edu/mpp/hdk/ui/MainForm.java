@@ -6,7 +6,11 @@ import javax.swing.JPanel;
 
 public abstract class MainForm {
 
-    protected final SystemController controller = SystemController.INSTANCE;
+    protected final SystemController system;
+
+    protected MainForm(SystemController system) {
+        this.system = system;
+    }
 
     public abstract JPanel getContent();
 
