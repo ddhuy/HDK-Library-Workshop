@@ -31,7 +31,7 @@ public class CheckoutBookForm extends MainForm {
             LibraryMember member = (LibraryMember) comboMember.getSelectedItem();
             Book book = (Book) comboBook.getSelectedItem();
             if(book == null || !book.isAvailable()){
-                system.error("Book Unavailable!");
+                system.error("Book not found!");
             } else {
                 List<BookCopy> copies = book.getCopies();
                 for (BookCopy copy : copies){
