@@ -6,14 +6,16 @@ public class CheckoutRecord {
 
     private LibraryMember member;
     private Book book;
+    private String checkoutBy;
     private Date checkoutDate;
 
     public CheckoutRecord() {
     }
 
-    public CheckoutRecord(LibraryMember member, Book book) {
+    public CheckoutRecord(LibraryMember member, Book book, String checkoutBy) {
         this.member = member;
         this.book = book;
+        this.checkoutBy = checkoutBy;
         this.checkoutDate = new Date();
     }
 

@@ -17,6 +17,7 @@ public class SystemController implements ControllerInterface {
 
     private LibraryWorkshopApplication application;
     public Auth currentAuth = Auth.BOTH;
+    public User user = new User();
     private final DataAccess da = DataAccessFactory.createDataAccess(DataAccessType.MONGO);
 
     public void login(String username, String password) {
@@ -30,6 +31,7 @@ public class SystemController implements ControllerInterface {
             this.error("Password incorrect");
             return;
         }
+        this.user = map.get(username);
         this.currentAuth = map.get(username).getAuthorization();
         this.info("Login successful");
         this.application.auth(currentAuth);

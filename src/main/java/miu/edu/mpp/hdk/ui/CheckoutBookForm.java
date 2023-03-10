@@ -32,7 +32,7 @@ public class CheckoutBookForm extends MainForm {
         btnCheckout.addActionListener(e -> {
             LibraryMember member = (LibraryMember) comboMember.getSelectedItem();
             Book book = (Book) comboBook.getSelectedItem();
-            CheckoutRecord record = new CheckoutRecord(member, book);
+            CheckoutRecord record = new CheckoutRecord(member, book, system.user.getId());
             memberController.checkout(record);
             system.info("Checkout Book Successfully!");
         });
