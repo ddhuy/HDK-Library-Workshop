@@ -7,9 +7,9 @@ import miu.edu.mpp.hdk.enums.Auth;
 import miu.edu.mpp.hdk.enums.DataAccessType;
 import miu.edu.mpp.hdk.model.LibraryMember;
 import miu.edu.mpp.hdk.model.User;
-import miu.edu.mpp.hdk.ui.AddBookForm;
+import miu.edu.mpp.hdk.ui.AddNewBookForm;
 import miu.edu.mpp.hdk.ui.CheckoutBookForm;
-import miu.edu.mpp.hdk.ui.PrintCheckoutForm;
+import miu.edu.mpp.hdk.ui.CheckoutRecordForm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +22,8 @@ public class SystemController implements ControllerInterface {
 
     private LibraryWorkshopApplication application;
     private CheckoutBookForm checkoutBookForm;
-    private AddBookForm addBookForm;
-    private PrintCheckoutForm printCheckoutForm;
+    private AddNewBookForm addNewBookForm;
+    private CheckoutRecordForm printCheckoutForm;
     public Auth currentAuth = Auth.BOTH;
 
     private final DataAccess da = DataAccessFactory.createDataAccess(DataAccessType.MONGO);
@@ -60,15 +60,15 @@ public class SystemController implements ControllerInterface {
         this.application = application;
     }
 
-    public void setAddBookForm(AddBookForm addBookForm) {
-        this.addBookForm = addBookForm;
+    public void setAddBookForm(AddNewBookForm addNewBookForm) {
+        this.addNewBookForm = addNewBookForm;
     }
 
     public void setCheckoutBookForm(CheckoutBookForm checkoutBookForm) {
         this.checkoutBookForm = checkoutBookForm;
     }
 
-    public void setPrintCheckoutForm(PrintCheckoutForm printCheckoutForm) {
+    public void setPrintCheckoutForm(CheckoutRecordForm printCheckoutForm) {
         this.printCheckoutForm = printCheckoutForm;
     }
 
@@ -81,7 +81,7 @@ public class SystemController implements ControllerInterface {
         } else {
             printCheckoutForm.setTitleTxtArea("");
         }
-        addBookForm.cleanText();
+        addNewBookForm.cleanText();
     }
 
     public void error(String msg) {

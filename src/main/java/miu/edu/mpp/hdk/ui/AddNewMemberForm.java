@@ -2,12 +2,10 @@ package miu.edu.mpp.hdk.ui;
 
 import javax.swing.JPanel;
 
-public class CheckoutBookForm extends MainForm {
-
+public class AddNewMemberForm extends MainForm {
     private JPanel mainPanel;
 
-    public CheckoutBookForm() {
-        controller.setCheckoutBookForm(this);
+    public AddNewMemberForm() {
     }
 
     @Override

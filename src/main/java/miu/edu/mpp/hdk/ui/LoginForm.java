@@ -5,11 +5,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class LoginForm extends IForm {
+public class LoginForm extends MainForm {
 
     private JTextField txtUsername;
     private JPasswordField txtPassword;
-    private JPanel loginPanel;
+    private JPanel mainPanel;
     private JButton btnLogin;
 
     public LoginForm() {
@@ -24,8 +24,9 @@ public class LoginForm extends IForm {
         });
     }
 
+    @Override
     public JPanel getContent() {
-        return loginPanel;
+        return mainPanel;
     }
 
 }

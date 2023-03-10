@@ -2,10 +2,14 @@ package miu.edu.mpp.hdk;
 
 import miu.edu.mpp.hdk.controller.SystemController;
 import miu.edu.mpp.hdk.enums.Auth;
-import miu.edu.mpp.hdk.ui.AddBookForm;
+import miu.edu.mpp.hdk.ui.AddBookCopyForm;
+import miu.edu.mpp.hdk.ui.AddNewBookForm;
+import miu.edu.mpp.hdk.ui.AddNewMemberForm;
 import miu.edu.mpp.hdk.ui.CheckoutBookForm;
-import miu.edu.mpp.hdk.ui.PrintCheckoutForm;
+import miu.edu.mpp.hdk.ui.CheckoutRecordForm;
 import miu.edu.mpp.hdk.ui.LoginForm;
+import miu.edu.mpp.hdk.ui.MainForm;
+import miu.edu.mpp.hdk.ui.UpdateExistMemberForm;
 import miu.edu.mpp.hdk.view.Util;
 
 import javax.swing.BorderFactory;
@@ -25,11 +29,19 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.io.Serial;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import static miu.edu.mpp.hdk.enums.MenuItem.*;
+import static miu.edu.mpp.hdk.enums.MenuItem.ADD_BOOK_COPY;
+import static miu.edu.mpp.hdk.enums.MenuItem.ADD_NEW_BOOK;
+import static miu.edu.mpp.hdk.enums.MenuItem.ADD_NEW_MEMBER;
+import static miu.edu.mpp.hdk.enums.MenuItem.CHECKOUT_BOOK;
+import static miu.edu.mpp.hdk.enums.MenuItem.CHECKOUT_RECORD;
+import static miu.edu.mpp.hdk.enums.MenuItem.LOGIN;
+import static miu.edu.mpp.hdk.enums.MenuItem.UPDATE_EXIST_MEMBER;
 
 public class LibraryWorkshopApplication extends JFrame {
 
@@ -43,6 +55,15 @@ public class LibraryWorkshopApplication extends JFrame {
     Map.Entry<Integer, String> currentMenu = Map.entry(0, LOGIN.getLabel());
     JPanel footer;
     SystemController controller;
+    LinkedHashMap<String, MainForm> menus = new LinkedHashMap<>() {{
+        put(LOGIN.getLabel(), new LoginForm());
+        put(CHECKOUT_BOOK.getLabel(), new CheckoutBookForm());
+        put(ADD_NEW_BOOK.getLabel(), new AddNewBookForm());
+        put(ADD_BOOK_COPY.getLabel(), new AddBookCopyForm());
+        put(ADD_NEW_MEMBER.getLabel(), new AddNewMemberForm());
+        put(UPDATE_EXIST_MEMBER.getLabel(), new UpdateExistMemberForm());
+        put(CHECKOUT_RECORD.getLabel(), new CheckoutRecordForm());
+    }};
 
     LibraryWorkshopApplication() {
         controller = SystemController.INSTANCE;
@@ -66,16 +87,12 @@ public class LibraryWorkshopApplication extends JFrame {
 
     private void initLeftMenu() {
         DefaultListModel<String> model = new DefaultListModel<>();
-        model.addElement(LOGIN.getLabel());
-        model.addElement(CHECKOUT_BOOK.getLabel());
-        model.addElement(ADD_BOOK.getLabel());
-        model.addElement(PRINT_CHECKOUT_RECORD.getLabel());
+        model.addAll(menus.keySet());
         this.linkList = new JList<>(model);
         this.linkList.setCellRenderer(this.renderLeftMenuList(controller.currentAuth));
         this.linkList.addListSelectionListener((event) -> {
             this.message.setText("");
             String item = linkList.getSelectedValue();
-//            selectMenu(item);
             if (authMenu(controller.currentAuth).contains(item)) {
                 currentMenu = Map.entry(linkList.getLeadSelectionIndex(), item);
                 selectMenu(item);
@@ -108,16 +125,28 @@ public class LibraryWorkshopApplication extends JFrame {
     }
 
     private Set<String> authMenu(Auth role) {
-        Set<String> menus = new HashSet<>();
-        menus.add(LOGIN.getLabel());
-        if (role.equals(Auth.BOTH) || role.equals(Auth.ADMIN)) {
-            menus.add(ADD_BOOK.getLabel());
+        if (role.equals(Auth.BOTH)) {
+            return menus.keySet();
         }
-        if (role.equals(Auth.BOTH) || role.equals(Auth.LIBRARIAN)) {
-            menus.add(CHECKOUT_BOOK.getLabel());
-            menus.add(PRINT_CHECKOUT_RECORD.getLabel());
+        if (role.equals(Auth.ADMIN)) {
+            return menus.keySet().stream().filter(k ->
+                    k.equals(LOGIN.getLabel()) ||
+                            k.equals(ADD_NEW_BOOK.getLabel()) ||
+                            k.equals(ADD_BOOK_COPY.getLabel()) ||
+                            k.equals(ADD_NEW_MEMBER.getLabel()) ||
+                            k.equals(UPDATE_EXIST_MEMBER.getLabel())
+            ).collect(Collectors.toSet());
         }
-        return menus;
+        if (role.equals(Auth.LIBRARIAN)) {
+            return menus.keySet().stream().filter(k ->
+                    k.equals(LOGIN.getLabel()) ||
+                            k.equals(CHECKOUT_BOOK.getLabel()) ||
+                            k.equals(CHECKOUT_RECORD.getLabel()) ||
+                            k.equals(ADD_NEW_MEMBER.getLabel())
+            ).collect(Collectors.toSet());
+
+        }
+        return Collections.singleton(LOGIN.getLabel());
     }
 
     private void initFooter() {
@@ -154,10 +183,7 @@ public class LibraryWorkshopApplication extends JFrame {
 
     private void setUpCards() {
         cardDeck = new JPanel(new CardLayout());
-        cardDeck.add(new LoginForm().getContent(), LOGIN.getLabel());
-        cardDeck.add(new CheckoutBookForm().getContent(), CHECKOUT_BOOK.getLabel());
-        cardDeck.add(new AddBookForm().getContent(), ADD_BOOK.getLabel());
-        cardDeck.add(new PrintCheckoutForm().getContent(), PRINT_CHECKOUT_RECORD.getLabel());
+        menus.forEach((key, value) -> cardDeck.add(key, value.getContent()));
     }
 
     private void updateCards() {

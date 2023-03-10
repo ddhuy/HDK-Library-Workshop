@@ -4,11 +4,10 @@ import miu.edu.mpp.hdk.controller.SystemController;
 
 import javax.swing.JPanel;
 
-public abstract class IForm {
+public abstract class MainForm {
 
     protected final SystemController controller = SystemController.INSTANCE;
 
-    abstract JPanel getContent();
-
+    public abstract JPanel getContent();
 
 }

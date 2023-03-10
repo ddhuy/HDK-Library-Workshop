@@ -4,14 +4,14 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class AddBookForm extends IForm {
-    private JPanel addBookPanel;
+public class AddNewBookForm extends MainForm {
+    private JPanel mainPanel;
     private JTextField firstNameTxt;
     private JTextField lastNameTxt;
     private JTextField bookTitleTxt;
     private JButton addBookButton;
 
-    public AddBookForm() {
+    public AddNewBookForm() {
         controller.setAddBookForm(this);
         addBookButton.addActionListener(e -> {
             String firstName = firstNameTxt.getText();
@@ -31,8 +31,9 @@ public class AddBookForm extends IForm {
         bookTitleTxt.setText("");
     }
 
+    @Override
     public JPanel getContent() {
-        return addBookPanel;
+        return mainPanel;
     }
 
 }
