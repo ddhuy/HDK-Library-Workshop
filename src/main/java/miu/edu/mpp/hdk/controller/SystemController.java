@@ -16,8 +16,8 @@ public class SystemController implements ControllerInterface {
     public static final SystemController INSTANCE = new SystemController();
 
     private LibraryWorkshopApplication application;
-    public Auth currentAuth = Auth.ANONYMOUS;
-    protected final DataAccess da = DataAccessFactory.createDataAccess(DataAccessType.MONGO);
+    public Auth currentAuth = Auth.BOTH;
+    private final DataAccess da = DataAccessFactory.createDataAccess(DataAccessType.MONGO);
 
     public void login(String username, String password) {
         HashMap<String, User> map = da.readUserMap();
