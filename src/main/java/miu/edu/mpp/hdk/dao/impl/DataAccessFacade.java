@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class DataAccessFacade implements DataAccess {
+public final class DataAccessFacade implements DataAccess {
 
     private static final String OUTPUT_DIR = System.getProperty("user.dir")
             + "/src/main/java/miu/edu/mpp/hdk/dao/storage"; //for Unix file system

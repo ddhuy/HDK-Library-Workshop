@@ -13,7 +13,7 @@ import org.bson.Document;
 
 import java.util.HashMap;
 
-public class DataAccessMongo implements DataAccess {
+public final class DataAccessMongo implements DataAccess {
 
     private static final String HOST = "localhost";
     private static final int PORT = 27017;
