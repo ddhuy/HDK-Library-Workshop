@@ -1,12 +1,10 @@
 package miu.edu.mpp.hdk.ui;
 
-import javax.swing.JLabel;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Toolkit;
+import javax.swing.*;
+import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class Util {
     public static final Color DARK_BLUE = Color.BLUE.darker();
@@ -42,19 +40,6 @@ public class Util {
         return list;
     }
 
-    static class NumericSortComparator implements Comparator<String> {
-        @Override
-        public int compare(String s, String t) {
-            if (!isNumeric(s) || !isNumeric(t))
-                throw new IllegalArgumentException("Input list has non-numeric characters");
-            int sInt = Integer.parseInt(s);
-            int tInt = Integer.parseInt(t);
-            if (sInt < tInt) return -1;
-            else if (sInt == tInt) return 0;
-            else return 1;
-        }
-    }
-
     public static boolean isNumeric(String s) {
         if (s == null) return false;
         try {
@@ -72,5 +57,23 @@ public class Util {
         int frameHeight = f.getSize().height;
         int frameWidth = f.getSize().width;
         f.setLocation(((width - frameWidth) / 2), (height - frameHeight) / 3);
+    }
+
+    static class NumericSortComparator implements Comparator<String> {
+        @Override
+        public int compare(String s, String t) {
+            if (!isNumeric(s) || !isNumeric(t))
+                throw new IllegalArgumentException("Input list has non-numeric characters");
+            int sInt = Integer.parseInt(s);
+            int tInt = Integer.parseInt(t);
+            if (sInt < tInt) return -1;
+            else if (sInt == tInt) return 0;
+            else return 1;
+        }
+    }
+
+    public static String generateId() {
+        Random random = new Random();
+        return String.valueOf(random.nextInt());
     }
 }

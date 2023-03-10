@@ -7,6 +7,7 @@ import miu.edu.mpp.hdk.enums.DataAccessType;
 import miu.edu.mpp.hdk.model.CheckoutRecord;
 import miu.edu.mpp.hdk.model.LibraryMember;
 
+import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringJoiner;
@@ -33,4 +34,13 @@ public class MemberController {
         return joiner.toString();
     }
 
+    public boolean addNewMember(LibraryMember libraryMember) {
+        try {
+            da.saveToStorage(DBCollection.MEMBERS, libraryMember);
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
 }
