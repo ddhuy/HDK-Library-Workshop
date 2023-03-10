@@ -16,7 +16,7 @@ public class SystemController implements ControllerInterface {
     public static final SystemController INSTANCE = new SystemController();
 
     private LibraryWorkshopApplication application;
-    public Auth currentAuth = Auth.BOTH;
+    public Auth currentAuth = Auth.ANONYMOUS;
     protected final DataAccess da = DataAccessFactory.createDataAccess(DataAccessType.MONGO);
 
     public void login(String username, String password) {

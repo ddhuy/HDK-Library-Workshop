@@ -54,20 +54,20 @@ public class LibraryWorkshopApplication extends JFrame {
     JLabel message = new JLabel("Welcome to the Library workshop!");
     Map.Entry<Integer, String> currentMenu = Map.entry(0, LOGIN.getLabel());
     JPanel footer;
-    SystemController controller;
+    SystemController mainController;
     LinkedHashMap<String, MainForm> menus;
 
     LibraryWorkshopApplication() {
-        controller = SystemController.INSTANCE;
-        controller.setApplication(this);
-        menus = new LinkedHashMap<>() {{
-            put(LOGIN.getLabel(), new LoginForm(controller));
-            put(CHECKOUT_BOOK.getLabel(), new CheckoutBookForm(controller));
-            put(ADD_NEW_BOOK.getLabel(), new AddNewBookForm(controller));
-            put(ADD_BOOK_COPY.getLabel(), new AddBookCopyForm(controller));
-            put(ADD_NEW_MEMBER.getLabel(), new AddNewMemberForm(controller));
-            put(UPDATE_EXIST_MEMBER.getLabel(), new UpdateExistMemberForm(controller));
-            put(CHECKOUT_RECORD.getLabel(), new CheckoutRecordForm(controller));
+        mainController = SystemController.INSTANCE;
+        mainController.setApplication(this);
+         menus = new LinkedHashMap<>() {{
+            put(LOGIN.getLabel(), new LoginForm(mainController));
+            put(CHECKOUT_BOOK.getLabel(), new CheckoutBookForm(mainController));
+            put(ADD_NEW_BOOK.getLabel(), new AddNewBookForm(mainController));
+            put(ADD_BOOK_COPY.getLabel(), new AddBookCopyForm(mainController));
+            put(ADD_NEW_MEMBER.getLabel(), new AddNewMemberForm(mainController));
+            put(UPDATE_EXIST_MEMBER.getLabel(), new UpdateExistMemberForm(mainController));
+            put(CHECKOUT_RECORD.getLabel(), new CheckoutRecordForm(mainController));
         }};
         setTitle("Library Workshop");
         initializeWindow();
@@ -90,11 +90,11 @@ public class LibraryWorkshopApplication extends JFrame {
         DefaultListModel<String> model = new DefaultListModel<>();
         model.addAll(menus.keySet());
         this.linkList = new JList<>(model);
-        this.linkList.setCellRenderer(this.renderLeftMenuList(controller.currentAuth));
+        this.linkList.setCellRenderer(this.renderLeftMenuList(mainController.currentAuth));
         this.linkList.addListSelectionListener((event) -> {
             this.message.setText("");
             String item = linkList.getSelectedValue();
-            if (authMenu(controller.currentAuth).contains(item)) {
+            if (authMenu(mainController.currentAuth).contains(item)) {
                 currentMenu = Map.entry(linkList.getLeadSelectionIndex(), item);
                 selectMenu(item);
             } else {
