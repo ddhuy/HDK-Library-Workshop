@@ -26,7 +26,7 @@ public class AddNewBookForm extends MainForm {
     public AddNewBookForm(SystemController system) {
         super(system);
 
-//        refresh();
+        refresh();
         if (btnAddBook == null) {
             btnAddBook = new JButton();
         }

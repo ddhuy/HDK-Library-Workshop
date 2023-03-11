@@ -48,7 +48,7 @@ public final class DataAccessMongo implements DataAccess {
         // Accessing the database
         database = mongo.getDatabase(DB_NAME).withCodecRegistry(pojoCodecRegistry);
         System.out.println("Credentials ::" + credential);
-//        resetDB();
+        resetDB();
     }
 
     private void resetDB() {
