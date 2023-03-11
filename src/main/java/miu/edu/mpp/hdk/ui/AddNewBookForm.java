@@ -56,6 +56,7 @@ public class AddNewBookForm extends MainForm {
                 if (bookController.saveBook(book)) {
                     lblErrorMsg.setText("Book is created successfully");
                     refresh();
+                    system.refresh();
                 } else {
                     lblErrorMsg.setText("Could not create book");
                 }

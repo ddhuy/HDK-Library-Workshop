@@ -41,6 +41,7 @@ public class AddNewMemberForm extends MainForm {
                 LibraryMember member = new LibraryMember(Util.generateId(), firstName, lastName, telephone, address);
                 if (memberController.addNewMember(member)) {
                     clearFields();
+                    system.refresh();
                     lblErrorMsg.setText("Member added!");
                 } else {
                     lblErrorMsg.setText("Could not add member!");

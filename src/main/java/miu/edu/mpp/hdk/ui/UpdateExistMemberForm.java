@@ -47,6 +47,7 @@ public class UpdateExistMemberForm extends MainForm {
 
                 if (memberController.updateMember(member)) {
                     lblErrorMsg.setText("Member updated!");
+                    system.refresh();
                 } else {
                     lblErrorMsg.setText("Could not update member!");
                 }
