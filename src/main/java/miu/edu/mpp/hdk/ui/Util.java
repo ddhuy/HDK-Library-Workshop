@@ -74,6 +74,6 @@ public class Util {
 
     public static String generateId() {
         Random random = new Random();
-        return String.valueOf(random.nextInt());
+        return String.valueOf(random.nextInt(5000));
     }
 }

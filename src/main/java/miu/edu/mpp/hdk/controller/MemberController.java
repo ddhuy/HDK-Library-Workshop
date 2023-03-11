@@ -43,4 +43,14 @@ public class MemberController {
             return false;
         }
     }
+
+    public boolean updateMember(LibraryMember libraryMember) {
+        try {
+            da.updateToStorage(DBCollection.MEMBERS, libraryMember);
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
 }
