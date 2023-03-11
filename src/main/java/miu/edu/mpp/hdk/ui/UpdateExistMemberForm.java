@@ -89,8 +89,11 @@ public class UpdateExistMemberForm extends MainForm {
 
     @Override
     public void refresh() {
-        cbbMemberList.removeAllItems();
-        List<LibraryMember> members = memberController.getListMember();
-        members.forEach(cbbMemberList::addItem);
+        if(cbbMemberList!=null){
+            cbbMemberList.removeAllItems();
+            List<LibraryMember> members = memberController.getListMember();
+            members.forEach(cbbMemberList::addItem);
+
+        }
     }
 }

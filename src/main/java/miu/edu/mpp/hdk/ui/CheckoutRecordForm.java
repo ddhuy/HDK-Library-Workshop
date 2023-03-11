@@ -24,6 +24,8 @@ public class CheckoutRecordForm extends MainForm {
     }
 
     public void refresh() {
-        this.areTitle.setText(memberController.printCheckoutRecord());
+        if(areTitle!=null){
+            this.areTitle.setText(memberController.printCheckoutRecord());
+        }
     }
 }

@@ -39,8 +39,10 @@ public class AddBookCopyForm extends MainForm {
 
     @Override
     public void refresh() {
-        comboBook.removeAllItems();
-        List<Book> books = bookController.getListBook();
-        books.forEach(comboBook::addItem);
+        if(comboBook!=null){
+            comboBook.removeAllItems();
+            List<Book> books = bookController.getListBook();
+            books.forEach(comboBook::addItem);
+        }
     }
 }

@@ -8,7 +8,9 @@ import miu.edu.mpp.hdk.model.BookCopy;
 import miu.edu.mpp.hdk.model.CheckoutRecord;
 import miu.edu.mpp.hdk.model.LibraryMember;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
 import java.util.List;
 
 public class CheckoutBookForm extends MainForm {
@@ -54,12 +56,16 @@ public class CheckoutBookForm extends MainForm {
 
     @Override
     public void refresh() {
-        comboMember.removeAllItems();
-        List<LibraryMember> members = memberController.getListMember();
-        members.forEach(comboMember::addItem);
+        if (comboMember != null) {
+            comboMember.removeAllItems();
+            List<LibraryMember> members = memberController.getListMember();
+            members.forEach(comboMember::addItem);
+        }
+        if (comboBook != null) {
+            comboBook.removeAllItems();
+            List<Book> books = bookController.getListBook();
+            books.forEach(comboBook::addItem);
 
-        comboBook.removeAllItems();
-        List<Book> books = bookController.getListBook();
-        books.forEach(comboBook::addItem);
+        }
     }
 }

@@ -80,9 +80,10 @@ public class AddNewBookForm extends MainForm {
     public void refresh() {
         txtBookIsbn.setText("");
         txtBookTitle.setText("");
-
-        cbbAuthors.removeAllItems();
-        List<Author> authors = authorController.getListAuthors();
-        authors.forEach(cbbAuthors::addItem);
+        if(cbbAuthors!=null){
+            cbbAuthors.removeAllItems();
+            List<Author> authors = authorController.getListAuthors();
+            authors.forEach(cbbAuthors::addItem);
+        }
     }
 }
