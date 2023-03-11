@@ -3,9 +3,6 @@ package miu.edu.mpp.hdk.ui;
 import miu.edu.mpp.hdk.controller.BookController;
 import miu.edu.mpp.hdk.controller.SystemController;
 import miu.edu.mpp.hdk.model.Book;
-import miu.edu.mpp.hdk.model.BookCopy;
-import miu.edu.mpp.hdk.model.CheckoutRecord;
-import miu.edu.mpp.hdk.model.LibraryMember;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,7 +11,7 @@ import java.util.List;
 
 public class AddBookCopyForm extends MainForm {
     private JPanel mainPanel;
-    private JComboBox comboBook;
+    private JComboBox<Book> comboBook;
     private JButton btnCopy;
     private final BookController bookController;
 
