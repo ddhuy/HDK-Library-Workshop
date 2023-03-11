@@ -26,48 +26,47 @@ public class AddNewBookForm extends MainForm {
     public AddNewBookForm(SystemController system) {
         super(system);
 
-        refresh();
+//        refresh();
+        if (btnAddBook == null) {
+            btnAddBook = new JButton();
+        }
+        btnAddBook.addActionListener(e -> {
+            String isbn = txtBookIsbn.getText().trim();
+            String title = txtBookTitle.getText().trim();
 
-        btnAddBook.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String isbn = txtBookIsbn.getText().trim();
-                String title = txtBookTitle.getText().trim();
+            Author author = (Author) cbbAuthors.getSelectedItem();
+            if (author == null)
+                return;
+            List<Author> lsAuthors = new ArrayList<>();
+            lsAuthors.add(author);
 
-                Author author = (Author) cbbAuthors.getSelectedItem();
-                if (author == null)
-                    return;
-                List<Author> lsAuthors = new ArrayList<>();
-                lsAuthors.add(author);
+            if (isbn.isBlank() || title.isBlank()) {
+                system.error("All fields must be nonempty");
+                return;
+            }
 
-                if (isbn.isBlank() || title.isBlank()) {
-                    lblErrorMsg.setText("All fields must be nonempty");
-                    return;
-                }
+            // check ISBN existence
+            if (bookController.checkIsbn(isbn)) {
+                system.error("Book with same ISBN is already in DB!");
+                return;
+            }
 
-                // check ISBN existence
-                if (bookController.checkIsbn(isbn)) {
-                    lblErrorMsg.setText("Book with same ISBN is already in DB!");
-                    return;
-                }
-
-                // request controller to create Book & its copy
-                Book book = bookController.createBook(isbn, title, lsAuthors);
-                if (bookController.saveBook(book)) {
-                    lblErrorMsg.setText("Book is created successfully");
-                    refresh();
-                    system.refresh();
-                } else {
-                    lblErrorMsg.setText("Could not create book");
-                }
+            // request controller to create Book & its copy
+            Book book = bookController.createBook(isbn, title, lsAuthors);
+            if (bookController.saveBook(book)) {
+                system.error("Book is created successfully");
+                refresh();
+                system.refresh();
+            } else {
+                system.error("Could not create book");
             }
         });
 
-        cbbAuthors.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        if(cbbAuthors==null){
+            cbbAuthors = new JComboBox<>();
+        }
+        cbbAuthors.addActionListener(e -> {
 
-            }
         });
     }
 
@@ -80,7 +79,7 @@ public class AddNewBookForm extends MainForm {
     public void refresh() {
         txtBookIsbn.setText("");
         txtBookTitle.setText("");
-        if(cbbAuthors!=null){
+        if (cbbAuthors != null) {
             cbbAuthors.removeAllItems();
             List<Author> authors = authorController.getListAuthors();
             authors.forEach(cbbAuthors::addItem);

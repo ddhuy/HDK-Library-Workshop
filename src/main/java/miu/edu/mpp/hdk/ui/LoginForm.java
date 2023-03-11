@@ -16,6 +16,9 @@ public class LoginForm extends MainForm {
 
     public LoginForm(SystemController system) {
         super(system);
+        if(btnLogin == null){
+            btnLogin = new JButton();
+        }
         btnLogin.addActionListener(e -> {
             String username = txtUsername.getText().trim();
             char[] password = txtPassword.getPassword();

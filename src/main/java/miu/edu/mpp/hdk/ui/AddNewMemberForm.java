@@ -25,29 +25,40 @@ public class AddNewMemberForm extends MainForm {
     public AddNewMemberForm(SystemController system) {
         super(system);
         memberController = new MemberController();
-        btnAddMember.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String firstName = txtFistName.getText();
-                String lastName = txtLastName.getText();
-                String telephone = txtTelephone.getText();
-                String street = txtStreet.getText();
-                String city = txtCity.getText();
-                String state = txtState.getText();
-                String zipCode = txtZipCode.getText();
+        if(btnAddMember == null){
+            btnAddMember = new JButton();
+        }
+        btnAddMember.addActionListener(e -> {
+            String firstName = txtFistName.getText();
+            String lastName = txtLastName.getText();
+            String telephone = txtTelephone.getText();
+            String street = txtStreet.getText();
+            String city = txtCity.getText();
+            String state = txtState.getText();
+            String zipCode = txtZipCode.getText();
+            if(isAnyEmpty(firstName, lastName,telephone, street,city, state,zipCode )){
+                system.error("All fields must be nonempty");
+                return;
+            }
+            Address address = new Address(street, city, state, zipCode);
 
-                Address address = new Address(street, city, state, zipCode);
-
-                LibraryMember member = new LibraryMember(Util.generateId(), firstName, lastName, telephone, address);
-                if (memberController.addNewMember(member)) {
-                    clearFields();
-                    system.refresh();
-                    lblErrorMsg.setText("Member added!");
-                } else {
-                    lblErrorMsg.setText("Could not add member!");
-                }
+            LibraryMember member = new LibraryMember(Util.generateId(), firstName, lastName, telephone, address);
+            if (memberController.addNewMember(member)) {
+                clearFields();
+                system.refresh();
+                system.error("Member added!");
+            } else {
+                system.error("Could not add member!");
             }
         });
+    }
+
+    private boolean isAnyEmpty(String ... strs){
+        for (String s : strs){
+            if(s.isBlank())
+            return true;
+        }
+        return false;
     }
 
     public void clearFields() {

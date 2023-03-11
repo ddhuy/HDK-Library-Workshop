@@ -30,45 +30,44 @@ public class UpdateExistMemberForm extends MainForm {
         memberController = new MemberController();
 
         this.refresh();
-        btnSaveMember.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LibraryMember member = (LibraryMember) cbbMemberList.getSelectedItem();
-                if (member == null)
-                    return;
+        if(btnSaveMember==null){
+            btnSaveMember = new JButton();
+        }
+        btnSaveMember.addActionListener(e -> {
+            LibraryMember member = (LibraryMember) cbbMemberList.getSelectedItem();
+            if (member == null)
+                return;
 
-                member.setFirstName(txtFirstName.getText());
-                member.setLastName(txtLastName.getText());
-                member.setTelephone(txtTelephone.getText());
-                member.getAddress().setStreet(txtStreet.getText());
-                member.getAddress().setCity(txtCity.getText());
-                member.getAddress().setState(txtState.getText());
-                member.getAddress().setZip(txtZipCode.getText());
+            member.setFirstName(txtFirstName.getText());
+            member.setLastName(txtLastName.getText());
+            member.setTelephone(txtTelephone.getText());
+            member.getAddress().setStreet(txtStreet.getText());
+            member.getAddress().setCity(txtCity.getText());
+            member.getAddress().setState(txtState.getText());
+            member.getAddress().setZip(txtZipCode.getText());
 
-                if (memberController.updateMember(member)) {
-                    lblErrorMsg.setText("Member updated!");
-                    system.refresh();
-                } else {
-                    lblErrorMsg.setText("Could not update member!");
-                }
+            if (memberController.updateMember(member)) {
+                system.error("Member updated!");
+                system.refresh();
+            } else {
+                system.error("Could not update member!");
             }
         });
+        if(cbbMemberList==null){
+            cbbMemberList = new JComboBox<>();
+        }
+        cbbMemberList.addActionListener(e -> {
+            LibraryMember member = (LibraryMember) cbbMemberList.getSelectedItem();
+            if (member == null)
+                return;
 
-        cbbMemberList.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LibraryMember member = (LibraryMember) cbbMemberList.getSelectedItem();
-                if (member == null)
-                    return;
-
-                txtFirstName.setText(member.getFirstName());
-                txtLastName.setText(member.getLastName());
-                txtTelephone.setText(member.getTelephone());
-                txtStreet.setText(member.getAddress().getStreet());
-                txtCity.setText(member.getAddress().getCity());
-                txtState.setText(member.getAddress().getState());
-                txtZipCode.setText(member.getAddress().getZip());
-            }
+            txtFirstName.setText(member.getFirstName());
+            txtLastName.setText(member.getLastName());
+            txtTelephone.setText(member.getTelephone());
+            txtStreet.setText(member.getAddress().getStreet());
+            txtCity.setText(member.getAddress().getCity());
+            txtState.setText(member.getAddress().getState());
+            txtZipCode.setText(member.getAddress().getZip());
         });
     }
 

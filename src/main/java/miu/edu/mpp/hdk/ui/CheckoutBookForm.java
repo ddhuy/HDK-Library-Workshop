@@ -27,6 +27,9 @@ public class CheckoutBookForm extends MainForm {
         memberController = new MemberController();
         bookController = new BookController();
         this.refresh();
+        if(btnCheckout==null){
+            btnCheckout = new JButton();
+        }
         btnCheckout.addActionListener(e -> {
             LibraryMember member = (LibraryMember) comboMember.getSelectedItem();
             Book book = (Book) comboBook.getSelectedItem();

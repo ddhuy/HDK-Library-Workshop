@@ -19,6 +19,9 @@ public class AddBookCopyForm extends MainForm {
         super(system);
         bookController = new BookController();
         refresh();
+        if(btnCopy==null){
+            btnCopy = new JButton();
+        }
         btnCopy.addActionListener(e -> {
             Book book = (Book) comboBook.getSelectedItem();
             if(book == null){
