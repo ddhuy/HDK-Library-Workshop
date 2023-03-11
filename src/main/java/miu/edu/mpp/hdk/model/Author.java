@@ -25,4 +25,9 @@ final public class Author extends Person implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 7508481940058530471L;
+
+    @Override
+    public String toString() {
+        return getFirstName() + " " + getLastName();
+    }
 }

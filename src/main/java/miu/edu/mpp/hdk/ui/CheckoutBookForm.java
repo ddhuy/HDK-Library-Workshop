@@ -8,19 +8,17 @@ import miu.edu.mpp.hdk.model.BookCopy;
 import miu.edu.mpp.hdk.model.CheckoutRecord;
 import miu.edu.mpp.hdk.model.LibraryMember;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.util.List;
 
 public class CheckoutBookForm extends MainForm {
 
+    private final MemberController memberController;
+    private final BookController bookController;
     private JPanel mainPanel;
     private JComboBox<LibraryMember> comboMember;
     private JComboBox<Book> comboBook;
     private JButton btnCheckout;
-    private final MemberController memberController;
-    private final BookController bookController;
 
     public CheckoutBookForm(SystemController system) {
         super(system);
@@ -30,12 +28,12 @@ public class CheckoutBookForm extends MainForm {
         btnCheckout.addActionListener(e -> {
             LibraryMember member = (LibraryMember) comboMember.getSelectedItem();
             Book book = (Book) comboBook.getSelectedItem();
-            if(book == null || !book.isAvailable()){
+            if (book == null || !book.isAvailable()) {
                 system.error("Book is not available!");
             } else {
                 List<BookCopy> copies = book.getCopies();
-                for (BookCopy copy : copies){
-                    if(copy.isAvailable()){
+                for (BookCopy copy : copies) {
+                    if (copy.isAvailable()) {
                         copy.setAvailable(false);
                         break;
                     }

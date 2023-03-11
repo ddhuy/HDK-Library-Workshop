@@ -81,6 +81,17 @@ public final class DataAccessMongo implements DataAccess {
     }
 
     @Override
+    public HashMap<String, Author> readAuthorsMap() {
+        HashMap<String, Author> map = new HashMap<>();
+        MongoCollection<Author> collections = database.getCollection(AUTHORS.name(), Author.class);
+        FindIterable<Author> iterDoc = collections.find();
+        for (Author i : iterDoc) {
+            map.put(i.getFirstName(), i);
+        }
+        return map;
+    }
+
+    @Override
     public HashMap<String, Book> readBooksMap() {
         HashMap<String, Book> map = new HashMap<>();
         MongoCollection<Book> collections = database.getCollection(BOOKS.name(), Book.class);

@@ -14,11 +14,10 @@ import java.util.List;
 public class SystemController implements ControllerInterface {
 
     public static final SystemController INSTANCE = new SystemController();
-
-    private LibraryWorkshopApplication application;
+    private final DataAccess da = DataAccessFactory.createDataAccess(DataAccessType.MONGO);
     public Auth currentAuth = Auth.ANONYMOUS;
     public User user = new User();
-    private final DataAccess da = DataAccessFactory.createDataAccess(DataAccessType.MONGO);
+    private LibraryWorkshopApplication application;
 
     public void login(String username, String password) {
         HashMap<String, User> map = da.readUserMap();
@@ -46,7 +45,6 @@ public class SystemController implements ControllerInterface {
     public List<String> allBookIds() {
         return new ArrayList<>(da.readBooksMap().keySet());
     }
-
 
     public void setApplication(LibraryWorkshopApplication application) {
         this.application = application;

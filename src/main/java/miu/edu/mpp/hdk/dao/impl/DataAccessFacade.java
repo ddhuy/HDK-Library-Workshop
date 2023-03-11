@@ -3,15 +3,12 @@ package miu.edu.mpp.hdk.dao.impl;
 import miu.edu.mpp.hdk.dao.DataAccess;
 import miu.edu.mpp.hdk.dao.DataConstant;
 import miu.edu.mpp.hdk.enums.DBCollection;
+import miu.edu.mpp.hdk.model.Author;
 import miu.edu.mpp.hdk.model.Book;
 import miu.edu.mpp.hdk.model.LibraryMember;
 import miu.edu.mpp.hdk.model.User;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serial;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,17 +18,21 @@ import java.util.List;
 
 public final class DataAccessFacade implements DataAccess {
 
+    static final DataAccessFacade INSTANCE = new DataAccessFacade();
     private static final String OUTPUT_DIR = System.getProperty("user.dir")
             + "/src/main/java/miu/edu/mpp/hdk/dao/storage"; //for Unix file system
     //			+ "\\src\\dataaccess\\storage"; //for Windows file system
     private static final String DATE_PATTERN = "MM/dd/yyyy";
 
-    static final DataAccessFacade INSTANCE = new DataAccessFacade();
-
     private DataAccessFacade() {
         this.loadBookMap(DataConstant.bookData());
         this.loadUserMap(DataConstant.userData());
         this.loadMemberMap(DataConstant.libraryMemberData());
+    }
+
+    @Override
+    public HashMap<String, Author> readAuthorsMap() {
+        return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -131,6 +132,8 @@ public final class DataAccessFacade implements DataAccess {
 
     final static class Pair<S, T> implements Serializable {
 
+        @Serial
+        private static final long serialVersionUID = 5399827794066637059L;
         S first;
         T second;
 
@@ -158,9 +161,6 @@ public final class DataAccessFacade implements DataAccess {
         public String toString() {
             return "(" + first.toString() + ", " + second.toString() + ")";
         }
-
-        @Serial
-        private static final long serialVersionUID = 5399827794066637059L;
     }
 
 }
