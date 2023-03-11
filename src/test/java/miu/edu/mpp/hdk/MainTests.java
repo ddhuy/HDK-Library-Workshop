@@ -7,6 +7,7 @@ import miu.edu.mpp.hdk.enums.DataAccessType;
 import miu.edu.mpp.hdk.model.Book;
 import miu.edu.mpp.hdk.model.LibraryMember;
 import miu.edu.mpp.hdk.model.User;
+import miu.edu.mpp.hdk.ui.Util;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -38,5 +39,12 @@ public class MainTests {
         System.out.println(book.getCopies().size());
 //        book.addCopy();
 //        data.updateToStorage(DBCollection.BOOKS, book);
+    }
+
+    @Test
+    public void testGenerateID(){
+        for (int i=0; i< 1000; i++){
+            System.out.println(Util.generateId());
+        }
     }
 }

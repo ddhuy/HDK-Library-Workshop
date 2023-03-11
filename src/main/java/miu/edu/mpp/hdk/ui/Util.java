@@ -73,7 +73,7 @@ public class Util {
     }
 
     public static String generateId() {
-        Random random = new Random();
-        return String.valueOf(random.nextInt(5000));
+        String id = String.valueOf(System.nanoTime());
+        return id.substring(id.length()-6);
     }
 }

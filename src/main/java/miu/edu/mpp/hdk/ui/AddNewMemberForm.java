@@ -46,7 +46,7 @@ public class AddNewMemberForm extends MainForm {
             if (memberController.addNewMember(member)) {
                 clearFields();
                 system.refresh();
-                system.error("Member added!");
+                system.info("Member added!");
             } else {
                 system.error("Could not add member!");
             }
