@@ -48,7 +48,7 @@ public final class DataAccessMongo implements DataAccess {
         // Accessing the database
         database = mongo.getDatabase(DB_NAME).withCodecRegistry(pojoCodecRegistry);
         System.out.println("Credentials ::" + credential);
-        resetDB();
+//        resetDB();
     }
 
     private void resetDB() {
@@ -176,7 +176,7 @@ public final class DataAccessMongo implements DataAccess {
                 MongoCollection<CheckoutRecord> collections = database.getCollection(type.name(), CheckoutRecord.class);
                 FindIterable<CheckoutRecord> iterDoc = collections.find();
                 for (CheckoutRecord i : iterDoc) {
-                    map.put(i.getCheckoutDate().toString(), i);
+                    map.put(i.toString(), i);
                 }
                 return map;
             }

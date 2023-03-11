@@ -54,7 +54,7 @@ public class AddNewBookForm extends MainForm {
             // request controller to create Book & its copy
             Book book = bookController.createBook(isbn, title, lsAuthors);
             if (bookController.saveBook(book)) {
-                system.error("Book is created successfully");
+                system.info("Book is created successfully");
                 refresh();
                 system.refresh();
             } else {
