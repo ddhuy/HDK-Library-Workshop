@@ -69,6 +69,10 @@ public class DataConstant {
         }
     };
 
+    public static List<Author> getAllAuthors() {
+        return allAuthors;
+    }
+
     private static final List<Book> allBooks = new ArrayList<>() {
         {
             add(new Book("23-11451", "The Big Fish", 21, List.of(allAuthors.get(0), allAuthors.get(1))));

@@ -9,10 +9,7 @@ import com.mongodb.client.MongoDatabase;
 import miu.edu.mpp.hdk.dao.DataAccess;
 import miu.edu.mpp.hdk.dao.DataConstant;
 import miu.edu.mpp.hdk.enums.DBCollection;
-import miu.edu.mpp.hdk.model.Book;
-import miu.edu.mpp.hdk.model.CheckoutRecord;
-import miu.edu.mpp.hdk.model.LibraryMember;
-import miu.edu.mpp.hdk.model.User;
+import miu.edu.mpp.hdk.model.*;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -20,9 +17,7 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 import java.util.HashMap;
 
 import static com.mongodb.client.model.Filters.eq;
-import static miu.edu.mpp.hdk.enums.DBCollection.BOOKS;
-import static miu.edu.mpp.hdk.enums.DBCollection.MEMBERS;
-import static miu.edu.mpp.hdk.enums.DBCollection.USERS;
+import static miu.edu.mpp.hdk.enums.DBCollection.*;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
@@ -78,6 +73,11 @@ public final class DataAccessMongo implements DataAccess {
         MongoCollection<User> users = database.getCollection(USERS.name(), User.class);
         users.insertMany(DataConstant.userData());
         System.out.printf("Collection %s created successfully%n", USERS);
+
+
+        MongoCollection<Author> authors = database.getCollection(AUTHORS.name(), Author.class);
+        authors.insertMany(DataConstant.getAllAuthors());
+        System.out.printf("Collection %s created successfully%n", AUTHORS);
     }
 
     @Override
@@ -127,7 +127,6 @@ public final class DataAccessMongo implements DataAccess {
             case BOOKS -> {
                 MongoCollection<Book> collections = database.getCollection(type.name(), Book.class);
                 collections.insertOne((Book) ob);
-
             }
             case MEMBERS -> {
                 MongoCollection<LibraryMember> collections = database.getCollection(type.name(), LibraryMember.class);
